@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  users:
+    image: postgres:alpine
+    restart: always
+    env_file:
+      - users.env
+    ports:
+      - 5432:5432
+    volumes:
+      - ./users:/var/lib/postgresql/data
+  messages:
+    image: mongo
+    ports:
+      - 27015:27017
+    volumes:
+      - ./messages:/data/db
+    restart: always
+  events:
+    image: postgres:alpine
+    ports:
+      - 5431:5432
+    env_file:
+      - events.env
+    volumes:
+      - ./events:/var/lib/postgresql/data
+    restart: always
