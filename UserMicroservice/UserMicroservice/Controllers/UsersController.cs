@@ -43,12 +43,12 @@ namespace UserMicroservice.API.Controllers
             return user;
         }
 
-        // GET: api/Users/email/email
-        [HttpGet("email/{email}")]
+        // GET: api/Users/email/email/
+        [HttpGet("email/{email}/")]
         public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
             var context = _contextFactory.CreateDbContext();
-            var user = await context.Users.FirstAsync(u => u.Email.Equals(email));
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
 
             if (user == null)
             {

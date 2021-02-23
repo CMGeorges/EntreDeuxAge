@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TokenGenerator.Domain\TokenGenerator.Domain.csproj" />
+    <ProjectReference Include="..\TokenGenerator.Services\TokenGenerator.Services.csproj" />
   </ItemGroup>
 
 </Project>
