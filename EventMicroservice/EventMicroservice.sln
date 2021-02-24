@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMicroservice.API", "EventMicroservice.API\EventMicroservice.API.csproj", "{635FBF07-9AB2-43CA-889E-A52E8641BCC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventMicroservice.API", "EventMicroservice.API\EventMicroservice.API.csproj", "{635FBF07-9AB2-43CA-889E-A52E8641BCC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMicroservice.Domain", "EventMicroservice.Domain\EventMicroservice.Domain.csproj", "{A6D3E29C-4348-4B13-8EF9-701279AB27C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventMicroservice.Domain", "EventMicroservice.Domain\EventMicroservice.Domain.csproj", "{A6D3E29C-4348-4B13-8EF9-701279AB27C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMicroservice.EntityFramework", "EventMicroservice.EntityFramework\EventMicroservice.EntityFramework.csproj", "{63B7AADD-62ED-4BEB-B2AC-FF440F8CEC21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventMicroservice.EntityFramework", "EventMicroservice.EntityFramework\EventMicroservice.EntityFramework.csproj", "{63B7AADD-62ED-4BEB-B2AC-FF440F8CEC21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMicroservice.Services", "EventMicroservice.Services\EventMicroservice.Services.csproj", "{11AF2477-F4AF-434F-8B07-E56E869E12B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{63B7AADD-62ED-4BEB-B2AC-FF440F8CEC21}.Release|x64.Build.0 = Release|Any CPU
 		{63B7AADD-62ED-4BEB-B2AC-FF440F8CEC21}.Release|x86.ActiveCfg = Release|Any CPU
 		{63B7AADD-62ED-4BEB-B2AC-FF440F8CEC21}.Release|x86.Build.0 = Release|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Debug|x64.Build.0 = Debug|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Debug|x86.Build.0 = Debug|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Release|x64.ActiveCfg = Release|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Release|x64.Build.0 = Release|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Release|x86.ActiveCfg = Release|Any CPU
+		{11AF2477-F4AF-434F-8B07-E56E869E12B7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

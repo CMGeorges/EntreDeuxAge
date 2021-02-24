@@ -130,7 +130,7 @@ namespace UserMicroservice.API.Controllers
         public async Task<IActionResult> DeleteUser(string email)
         {
             var context = _contextFactory.CreateDbContext();
-            var user = await context.Users.FirstAsync(u => u.Email.Equals(email));
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
             if (user == null)
             {
                 return NotFound();

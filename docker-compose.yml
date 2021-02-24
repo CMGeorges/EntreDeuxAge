@@ -25,3 +25,8 @@ services:
     volumes:
       - ./events:/var/lib/postgresql/data
     restart: always
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672:5672
+    restart: always
