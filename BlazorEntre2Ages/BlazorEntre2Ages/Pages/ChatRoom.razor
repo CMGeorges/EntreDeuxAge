@@ -4,27 +4,33 @@
 @inject IMessageService MessageService
 
 <h3>ChatRoom</h3>
-@if (messages == null)
+@if (_messages == null)
 {
     <h4>Loading...</h4>
 }
 else
 {
-    <table>
-        @foreach (var message in messages)
+    <div id="scrollbox" class="h-100">
+        @foreach (var item in _messages)
         {
-            <tr>
-                <td>@message.Author</td>
-                <td>@message.Guest</td>
-                <td>@DateTime.FromBinary(message.TimeStamp)</td>
-                <td>@message.Body</td>
-            </tr>
+            <div class="@item.CSS">
+                <div class="user">@item.Author</div>
+                <div class="msg">@item.Body</div>
+                <div class="timestamp">@epoch2string((int) item.TimeStamp)</div>
+            </div>
         }
-    </table>
+        <hr />
+
+    </div>
+    <div>
+        <textarea class="input-lg" placeholder="enter your comment"></textarea>
+        <button class="btn btn-default">Send</button>
+    </div>
 }
+
 @code {
 
-    IEnumerable<Message> messages;
+    IEnumerable<Message> _messages;
 
     protected override async Task OnInitializedAsync()
     {
@@ -32,11 +38,17 @@ else
         {
             await InvokeAsync(() =>
             {
-                messages = mess;
+                _messages = mess;
                 StateHasChanged();
             }
             );
         };
+    }
+
+    private string epoch2string(int epoch)
+    {
+        //return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(epoch).ToString();
+        return DateTimeOffset.FromUnixTimeSeconds(epoch).LocalDateTime.ToString();
     }
 
 }

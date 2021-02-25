@@ -7,7 +7,6 @@ namespace BlazorEntre2Ages.Services
 {
     public interface IMessageService
     {
-
         public List<Message> Messages { get; set; }
         event Func<List<Message>, Task> OnChangeAsync;
         void HandleMessage(Message message);

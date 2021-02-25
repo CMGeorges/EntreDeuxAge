@@ -27,7 +27,7 @@ namespace BlazorEntre2Ages.Services
         public void HandleMessage(Message message)
         {
             Messages.Add(message);
-            this.OnChangeAsync?.Invoke(Messages);
+            this.OnChangeAsync?.Invoke(Messages.TakeLast(10).ToList());
         }
 
         public async Task<List<Message>> GetMessagesAsync()

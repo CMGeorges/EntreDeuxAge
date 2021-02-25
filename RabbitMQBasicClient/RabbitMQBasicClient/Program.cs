@@ -26,16 +26,17 @@ namespace RabbitMQBasicClient
                 {
                     Author = Guid.NewGuid(),
                     Guest = Guid.NewGuid(),
-                    TimeStamp = DateTime.Now.Ticks,
-                    Body = "In sadipscing nonumy sed accusam magna et dolore consequat duis et erat justo magna nulla voluptua consetetur vero lorem elitr stet duo elit consequat sadipscing labore diam blandit nisl dolore sea dolor erat takimata dolor lorem sed kasd lobortis stet autem est gubergren dolor velit invidunt facilisis sed sed duis"
+                    Body = "Pauvre dans flanc monstre ton femme de d'athlete masque ronge la n'est genoux l'elégance voici",
+                    Mine = true
                 };
-                var json = JsonConvert.SerializeObject(messageObject);
-
-                var body = Encoding.UTF8.GetBytes(json);
 
                 while (true)
                 {
+                    messageObject.Mine = !messageObject.Mine;
+                    messageObject.TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                    var json = JsonConvert.SerializeObject(messageObject);
                     
+                    var body = Encoding.UTF8.GetBytes(json);
                     channel.BasicPublish(exchange: "",
                                          routingKey: "hello",
                                          basicProperties: null,
