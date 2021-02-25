@@ -1,0 +1,42 @@
+﻿@page "/chatroom"
+@using BlazorEntre2Ages.Services
+@using BlazorEntre2Ages.Models
+@inject IMessageService MessageService
+
+<h3>ChatRoom</h3>
+@if (messages == null)
+{
+    <h4>Loading...</h4>
+}
+else
+{
+    <table>
+        @foreach (var message in messages)
+        {
+            <tr>
+                <td>@message.Author</td>
+                <td>@message.Guest</td>
+                <td>@DateTime.FromBinary(message.TimeStamp)</td>
+                <td>@message.Body</td>
+            </tr>
+        }
+    </table>
+}
+@code {
+
+    IEnumerable<Message> messages;
+
+    protected override async Task OnInitializedAsync()
+    {
+        MessageService.OnChangeAsync += async mess =>
+        {
+            await InvokeAsync(() =>
+            {
+                messages = mess;
+                StateHasChanged();
+            }
+            );
+        };
+    }
+
+}

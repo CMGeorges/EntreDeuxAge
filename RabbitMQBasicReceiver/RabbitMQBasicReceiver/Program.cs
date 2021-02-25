@@ -30,7 +30,7 @@ namespace RabbitMQBasicReceiver
 
                         var messageObject = JsonConvert.DeserializeObject<Message>(message);
 
-                        Console.WriteLine(" [x] Received {0}", messageObject.Body);
+                        Console.WriteLine(" [x] Received {0}", DateTime.FromBinary(messageObject.TimeStamp).ToShortTimeString() +" " +messageObject.Body.Substring(0,10));
                         
                     };
                     channel.BasicConsume(queue: "hello",

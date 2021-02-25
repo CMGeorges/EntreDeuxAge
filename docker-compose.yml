@@ -9,6 +9,8 @@ services:
       - 5432:5432
     volumes:
       - ./users:/var/lib/postgresql/data
+    networks:
+      - entre2ages
   messages:
     image: mongo
     ports:
@@ -16,6 +18,8 @@ services:
     volumes:
       - ./messages:/data/db
     restart: always
+    networks:
+      - entre2ages
   events:
     image: postgres:alpine
     ports:
@@ -25,8 +29,15 @@ services:
     volumes:
       - ./events:/var/lib/postgresql/data
     restart: always
+    networks:
+      - entre2ages
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3-management
     ports:
       - 5672:5672
+      - 15672:15672
     restart: always
+    networks:
+      - entre2ages
+networks:
+  entre2ages:

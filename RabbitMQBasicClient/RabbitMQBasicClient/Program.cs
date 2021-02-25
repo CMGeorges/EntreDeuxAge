@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQBasicClient.Models;
@@ -28,14 +30,20 @@ namespace RabbitMQBasicClient
                     Body = "In sadipscing nonumy sed accusam magna et dolore consequat duis et erat justo magna nulla voluptua consetetur vero lorem elitr stet duo elit consequat sadipscing labore diam blandit nisl dolore sea dolor erat takimata dolor lorem sed kasd lobortis stet autem est gubergren dolor velit invidunt facilisis sed sed duis"
                 };
                 var json = JsonConvert.SerializeObject(messageObject);
-                
+
                 var body = Encoding.UTF8.GetBytes(json);
 
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "hello",
-                                     basicProperties: null,
-                                     body: body);
-                Console.WriteLine(" [x] Sent {0}", json);
+                while (true)
+                {
+                    
+                    channel.BasicPublish(exchange: "",
+                                         routingKey: "hello",
+                                         basicProperties: null,
+                                         body: body);
+                    Console.WriteLine(" [x] Sent {0}", json);
+                    Thread.Sleep(5000);
+
+                }
             }
 
             Console.WriteLine(" Press [enter] to exit.");
