@@ -83,7 +83,7 @@ textarea {
 }
 
 .received {
-    background-image: linear-gradient(90deg, #2c3e50 0%, #3498db 70%);
+    background-image: linear-gradient(90deg, #3a6186 0%, #89253e 70%);
     color: #fff;
     margin-left: 10px;
     margin-right: 10%;
@@ -96,7 +96,7 @@ textarea {
 }
 
 .received:after {
-    border-right-color: #2c3e50;
+    border-right-color: #3a6186;
     border-left: 0;
     left: -20px;
 }

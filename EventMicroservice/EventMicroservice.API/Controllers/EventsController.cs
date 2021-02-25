@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EventMicroservice.Domain.Models;
 using EventMicroservice.EntityFramework;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EventMicroservice.API.Controllers
 {

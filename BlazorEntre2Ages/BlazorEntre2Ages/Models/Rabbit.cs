@@ -64,7 +64,7 @@ namespace BlazorEntre2Ages.Models
                 messageObject = JsonConvert.DeserializeObject<Message>(message);
                 HandleMessage(messageObject);
             };
-            _channel.BasicConsume(queue: "hello",
+            _channel.BasicConsume(queue: "entre2ages",
                                  autoAck: true,
                                  consumer: consumer);
 

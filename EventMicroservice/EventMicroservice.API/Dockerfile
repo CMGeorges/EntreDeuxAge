@@ -8,6 +8,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["EventMicroservice.API/EventMicroservice.API.csproj", "EventMicroservice.API/"]
+COPY ["EventMicroservice.Domain/EventMicroservice.Domain.csproj", "EventMicroservice.Domain/"]
+COPY ["EventMicroservice.EntityFramework/EventMicroservice.EntityFramework.csproj", "EventMicroservice.EntityFramework/"]
 RUN dotnet restore "EventMicroservice.API/EventMicroservice.API.csproj"
 COPY . .
 WORKDIR "/src/EventMicroservice.API"

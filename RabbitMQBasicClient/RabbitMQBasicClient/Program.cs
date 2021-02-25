@@ -38,7 +38,7 @@ namespace RabbitMQBasicClient
                     
                     var body = Encoding.UTF8.GetBytes(json);
                     channel.BasicPublish(exchange: "",
-                                         routingKey: "hello",
+                                         routingKey: "entre2ages",
                                          basicProperties: null,
                                          body: body);
                     Console.WriteLine(" [x] Sent {0}", json);

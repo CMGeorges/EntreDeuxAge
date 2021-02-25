@@ -33,7 +33,7 @@ namespace RabbitMQBasicReceiver
                         Console.WriteLine(" [x] Received {0}", DateTime.FromBinary(messageObject.TimeStamp).ToShortTimeString() +" " +messageObject.Body.Substring(0,10));
                         
                     };
-                    channel.BasicConsume(queue: "hello",
+                    channel.BasicConsume(queue: "entre2ages",
                                          autoAck: true,
                                          consumer: consumer);
 

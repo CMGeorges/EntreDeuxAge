@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice.API", "UserMicroservice\UserMicroservice.API.csproj", "{2B68E564-0D4C-4A11-B3DD-12C25C89FBAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice.API", "UserMicroservice.API\UserMicroservice.API.csproj", "{2B68E564-0D4C-4A11-B3DD-12C25C89FBAB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice.Domain", "UserMicroservice.Domain\UserMicroservice.Domain.csproj", "{889270B0-6FE2-4589-972A-1C1AC031CDAB}"
 EndProject
