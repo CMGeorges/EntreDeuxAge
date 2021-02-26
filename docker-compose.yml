@@ -11,6 +11,7 @@ services:
       - ./users:/var/lib/postgresql/data
     networks:
       - entre2ages
+    container_name: users
   messages:
     image: mongo
     ports:
@@ -20,6 +21,7 @@ services:
     restart: always
     networks:
       - entre2ages
+    container_name: mongo
   events:
     image: postgres:alpine
     ports:
@@ -31,13 +33,93 @@ services:
     restart: always
     networks:
       - entre2ages
+    container_name: events
+
   rabbitmq:
     image: rabbitmq:3-management
-    ports:
-      - 5672:5672
-      - 15672:15672
     restart: always
     networks:
       - entre2ages
+    container_name: rabbitmq
+
+  events-microservice:
+    build:
+      dockerfile: EventMicroservice.API/Dockerfile
+      context: ./EventMicroservice
+    depends_on:
+      - events
+      - consul
+    restart: always
+    container_name: events-service
+    links:
+      - events
+    environment:
+      - Kestrel__Certificates__Default__Password=xsdRyXGjjhEEUKQYNQQQ
+      - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/microservices.pfx
+    volumes:
+      - ./Certificates:/app/Infrastructure/Certificate/
+    networks:
+      - entre2ages
+
+  users-microservice:
+    build:
+      dockerfile: UserMicroservice.API/Dockerfile
+      context: ./UserMicroservice
+    depends_on:
+      - users
+      - consul
+    restart: always
+    container_name: users-service
+    networks:
+      - entre2ages
+    links:
+      - users
+    environment:
+      - Kestrel__Certificates__Default__Password=xsdRyXGjjhEEUKQYNQQQ
+      - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/microservices.pfx
+    volumes:
+      - ./Certificates:/app/Infrastructure/Certificate/
+  messages-microservice:
+    build:
+      dockerfile: MessageMicroservice.API/Dockerfile
+      context: ./MessageMicroservice
+    depends_on:
+      - messages
+      - consul
+    restart: always
+    container_name: messages-service
+    networks:
+      - entre2ages
+    links:
+      - messages
+    environment:
+      - Kestrel__Certificates__Default__Password=xsdRyXGjjhEEUKQYNQQQ
+      - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/microservices.pfx
+    volumes:
+      - ./Certificates:/app/Infrastructure/Certificate/
+
+  consul:
+    image: consul
+    networks:
+      - entre2ages
+    container_name: consul
+
+  gateway:
+    build:
+      dockerfile: Gateway/Dockerfile
+      context: ./Gateway
+    depends_on:
+      - events
+    restart: always
+    container_name: gateway
+    networks:
+      - entre2ages
+    links:
+      - users
+    environment:
+      - Kestrel__Certificates__Default__Password=xsdRyXGjjhEEUKQYNQQQ
+      - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/microservices.pfx
+    volumes:
+      - ./Certificates:/app/Infrastructure/Certificate/
 networks:
   entre2ages:

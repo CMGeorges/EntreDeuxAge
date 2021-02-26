@@ -1,17 +1,11 @@
 using EventMicroservice.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Steeltoe.Discovery.Client;
 
 namespace EventMicroservice.API
 {
@@ -27,8 +21,10 @@ namespace EventMicroservice.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<EventDbContextFactory>(new EventDbContextFactory(Configuration.GetConnectionString("Postgres")));
+            services.AddSingleton(new EventDbContextFactory(Configuration.GetConnectionString("ConnectionString")));
             services.AddControllers();
+            services.AddDiscoveryClient(Configuration);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EventMicroservice.API", Version = "v1" });
@@ -48,7 +44,7 @@ namespace EventMicroservice.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseDiscoveryClient();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

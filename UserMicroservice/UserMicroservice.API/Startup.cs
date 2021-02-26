@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using UserMicroservice.Domain.Models;
+using Steeltoe.Discovery.Client;
 using UserMicroservice.EntityFramework;
 
 namespace UserMicroservice
@@ -21,12 +21,11 @@ namespace UserMicroservice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connexionString = Configuration.GetConnectionString("Postgres");
+            string connexionString = Configuration.GetConnectionString("ConnectionString");
 
-            //services.Configure<IPostgresConfiguration>(Configuration.GetValue(typeof(PostgresConfiguration), "PostgresConfiguration"));
-
-            services.AddSingleton<UserDbContextFactory>(new UserDbContextFactory(connexionString));
+            services.AddSingleton(new UserDbContextFactory(connexionString));
             services.AddControllers();
+            services.AddDiscoveryClient(Configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "UserMicroservice", Version = "v1"});
@@ -44,7 +43,7 @@ namespace UserMicroservice
             }
 
             app.UseHttpsRedirection();
-
+            app.UseDiscoveryClient();
             app.UseRouting();
 
             app.UseAuthorization();
