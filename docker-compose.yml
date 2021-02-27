@@ -42,7 +42,7 @@ services:
       - entre2ages
     container_name: rabbitmq
 
-  events-microservice:
+  events-service:
     build:
       dockerfile: EventMicroservice.API/Dockerfile
       context: ./EventMicroservice
@@ -61,7 +61,7 @@ services:
     networks:
       - entre2ages
 
-  users-microservice:
+  users-service:
     build:
       dockerfile: UserMicroservice.API/Dockerfile
       context: ./UserMicroservice
@@ -79,7 +79,8 @@ services:
       - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/microservices.pfx
     volumes:
       - ./Certificates:/app/Infrastructure/Certificate/
-  messages-microservice:
+
+  messages-service:
     build:
       dockerfile: MessageMicroservice.API/Dockerfile
       context: ./MessageMicroservice

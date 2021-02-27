@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  events-microservice:
+  events-service:
     ports:
       - "6001:443"
       - "6000:80"
@@ -11,7 +11,7 @@ services:
       - Consul__Host=consul
       - ConnectionStrings__ConnectionString=Server=events;Username=postgres;Password=pass;Database=entre2ages;Port=5431
 
-  users-microservice:
+  users-service:
     ports:
       - "5001:443"
       - "5000:80"

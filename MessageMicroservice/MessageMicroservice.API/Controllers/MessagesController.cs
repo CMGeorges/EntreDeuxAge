@@ -13,30 +13,37 @@ namespace MessageMicroservice.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
-    public class MessageController : ControllerBase
+    public class MessagesController : ControllerBase
     {
         private readonly MessageService _service;
 
-        public MessageController(MessageService service)
+        public MessagesController(MessageService service)
         {
             _service = service;
         }
 
-        // GET: api/<MessageController>
+        // GET: api/<MessagesController>
         [HttpGet]
         public async Task<List<Message>> GetAsync()
         {
             return await _service.GetAsync();
         }
 
-        // GET api/<MessageController>/5
+        // GET api/<MessagesController>/5
         [HttpGet("{id}")]
         public async Task<Message> GetAsync(string id)
         {
             return await _service.GetByIdAsync(id);
         }
 
-        // POST api/<MessageController>
+        // GET api/<MessagesController>/5
+        [HttpGet("{guid:Guid}")]
+        public async Task<List<Message>> GetByGuidAsync(Guid guid)
+        {
+            return await _service.GetByGuidAsync(guid);
+        }
+
+        // POST api/<MessagesController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Message message)
         {
@@ -48,7 +55,7 @@ namespace MessageMicroservice.Controllers
             return Accepted();
         }
 
-        // PUT/PATCH api/<MessageController>/5
+        // PUT/PATCH api/<MessagesController>/5
         [HttpPut("{id}")]
         [HttpPatch("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody] Message message)
@@ -67,7 +74,7 @@ namespace MessageMicroservice.Controllers
             return Accepted(newMessage);
         }
 
-        // DELETE api/<MessageController>
+        // DELETE api/<MessagesController>
         [HttpDelete]
         public async Task<IActionResult> Delete()
         {      
@@ -82,7 +89,7 @@ namespace MessageMicroservice.Controllers
             }
         }
 
-        // DELETE api/<MessageController>/5
+        // DELETE api/<MessagesController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {

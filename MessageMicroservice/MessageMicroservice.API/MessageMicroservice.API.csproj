@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MessageMicroservice.Domain\MessageMicroservice.Domain.csproj" />
-    <ProjectReference Include="..\MessageMicroservice.Service\MessageMicroservice.Services.csproj" />
+    <ProjectReference Include="..\MessageMicroservice.Services\MessageMicroservice.Services.csproj" />
   </ItemGroup>
 
 

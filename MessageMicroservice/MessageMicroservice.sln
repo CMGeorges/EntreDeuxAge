@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageMicroservice.API", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageMicroservice.Domain", "MessageMicroservice.Domain\MessageMicroservice.Domain.csproj", "{5E69FC44-C8C8-4329-AC9D-F18D732EA977}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageMicroservice.Services", "MessageMicroservice.Service\MessageMicroservice.Services.csproj", "{43E190AC-EB8E-498C-AEED-5ED97D1F26CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageMicroservice.Services", "MessageMicroservice.Services\MessageMicroservice.Services.csproj", "{43E190AC-EB8E-498C-AEED-5ED97D1F26CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
