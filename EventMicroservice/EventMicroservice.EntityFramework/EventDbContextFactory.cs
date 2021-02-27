@@ -8,25 +8,24 @@ namespace EventMicroservice.EntityFramework
 {
     public class EventDbContextFactory : IDesignTimeDbContextFactory<EventDbContext>
     {
-        private readonly string _connexionString;
+        private readonly Action<DbContextOptionsBuilder> _configureDbContext;
 
         public EventDbContextFactory()
         {
 
         }
 
-        public EventDbContextFactory(string connexionString)
+        public EventDbContextFactory(Action<DbContextOptionsBuilder> configureDbContext)
         {
-            _connexionString = connexionString;
+            this._configureDbContext = configureDbContext;
         }
 
         public EventDbContext CreateDbContext(string[] args = null)
         {
             var options = new DbContextOptionsBuilder<EventDbContext>();
-            var cs = "Host=localhost;Username=postgres;Password=pass;Database=entre2ages;Port=5431";
 
-            options.UseNpgsql(_connexionString);
-            //options.UseNpgsql(cs);
+            _configureDbContext(options);
+
             return new EventDbContext(options.Options);
         }
     }

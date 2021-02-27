@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -5,25 +6,25 @@ namespace UserMicroservice.EntityFramework
 {
     public class UserDbContextFactory : IDesignTimeDbContextFactory<UserDbContext>
     {
-        private readonly string _connexionString;
+
+        private readonly Action<DbContextOptionsBuilder> _configureDbContext;
 
         public UserDbContextFactory()
         {
             
         }
 
-        public UserDbContextFactory(string connexionString)
+        public UserDbContextFactory(Action<DbContextOptionsBuilder> configureDbContext)
         {
-            _connexionString = connexionString;
+            _configureDbContext = configureDbContext;
         }
 
         public UserDbContext CreateDbContext(string[] args = null)
         {
             var options = new DbContextOptionsBuilder<UserDbContext>();
-            //var cs = "Host=localhost;Username=postgres;Password=pass;Database=entre2ages";
-            
-            options.UseNpgsql(_connexionString);
-            //options.UseNpgsql(cs);
+
+            _configureDbContext(options);
+
             return new UserDbContext(options.Options);
         }
     }

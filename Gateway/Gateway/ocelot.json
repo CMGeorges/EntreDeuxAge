@@ -3,6 +3,7 @@
     {
       "DownstreamPathTemplate": "/api/Events/",
       "DownstreamScheme": "http",
+      "UseServiceDiscovery": true,
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -15,24 +16,24 @@
     {
       "DownstreamPathTemplate": "/api/Users/",
       "DownstreamScheme": "http",
+      "UseServiceDiscovery": true,
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 5000
         }
       ],
-      "UpstreamPathTemplate": "/api/Messages/",
+      "UpstreamPathTemplate": "/api/Users/",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/Messages/",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 4000
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "ServiceName": "messages-service",
       "UpstreamPathTemplate": "/api/Messages/",
       "UpstreamHttpMethod": [ "GET" ]
     }

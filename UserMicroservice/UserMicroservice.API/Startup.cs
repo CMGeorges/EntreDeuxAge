@@ -1,5 +1,7 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,8 +24,10 @@ namespace UserMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             string connexionString = Configuration.GetConnectionString("ConnectionString");
+            Action<DbContextOptionsBuilder> configureDbContext = o => o.UseNpgsql(connexionString);
 
-            services.AddSingleton(new UserDbContextFactory(connexionString));
+            services.AddDbContext<UserDbContext>(configureDbContext);
+            services.AddSingleton(new UserDbContextFactory(configureDbContext));
             services.AddControllers();
             services.AddDiscoveryClient(Configuration);
             services.AddSwaggerGen(c =>

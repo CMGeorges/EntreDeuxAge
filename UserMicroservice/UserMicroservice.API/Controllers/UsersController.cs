@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserMicroservice.Domain.Models;
@@ -21,6 +22,7 @@ namespace UserMicroservice.API.Controllers
         }
 
         // GET: api/Users
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<User>))]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -29,7 +31,9 @@ namespace UserMicroservice.API.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id:Guid}")]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
             var context = _contextFactory.CreateDbContext();
@@ -43,8 +47,8 @@ namespace UserMicroservice.API.Controllers
             return user;
         }
 
-        // GET: api/Users/email/email/
-        [HttpGet("email/{email}/")]
+        // GET: api/Users/email/
+        [HttpGet("{email:string}/")]
         public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
             var context = _contextFactory.CreateDbContext();
@@ -125,8 +129,8 @@ namespace UserMicroservice.API.Controllers
             return context.Users.Any(e => e.Id == id);
         }
 
-        // DELETE: api/Users/email/email
-        [HttpDelete("email/{email}")]
+        // DELETE: api/Users/email
+        [HttpDelete("{email:string}")]
         public async Task<IActionResult> DeleteUser(string email)
         {
             var context = _contextFactory.CreateDbContext();
