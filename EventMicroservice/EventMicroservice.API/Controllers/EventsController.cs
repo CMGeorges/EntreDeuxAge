@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EventMicroservice.Domain.Models;
 using EventMicroservice.EntityFramework;
+using Microsoft.AspNetCore.Http;
 
 namespace EventMicroservice.API.Controllers
 {
@@ -20,17 +21,21 @@ namespace EventMicroservice.API.Controllers
             _contextFactory = contextFactory;
         }
 
-        // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        // GET: api/Events
+        public async Task<ActionResult<IEnumerable<Event>>> GetAll()
         {
             var context = _contextFactory.CreateDbContext();
             return await context.Events.ToListAsync();
         }
 
         // GET: api/Events/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(Guid id)
+        [HttpGet("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Event>> Get(Guid id)
         {
             var context = _contextFactory.CreateDbContext();
             var @event = await context.Events.FindAsync(id);
@@ -45,16 +50,30 @@ namespace EventMicroservice.API.Controllers
 
         // PUT: api/Events/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(Guid id, Event @event)
+        [HttpPut("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(Guid id, Event eventupdate)
         {
-            if (id != @event.Id)
+            if (id != eventupdate.Id)
             {
                 return BadRequest();
             }
             var context = _contextFactory.CreateDbContext();
+            var @event = await context.Events.FindAsync(id);
 
-            context.Entry(@event).State = EntityState.Modified;
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            @event.AuthorId = eventupdate.AuthorId;
+            @event.GuestId = eventupdate.GuestId;
+            @event.Status = eventupdate.Status;
+            @event.Subject = eventupdate.Subject;
+            @event.EpochEnd = eventupdate.EpochEnd;
+            @event.EpochStart = eventupdate.EpochStart;
 
             try
             {
@@ -78,18 +97,32 @@ namespace EventMicroservice.API.Controllers
         // POST: api/Events
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Event>> PostEvent(Event @event)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Event>> Post(Event @event)
         {
+            var newEvent = new Event()
+            {
+                AuthorId = @event.AuthorId,
+                GuestId = @event.GuestId,
+                EpochEnd = @event.EpochEnd,
+                EpochStart = @event.EpochStart,
+                Status = @event.Status,
+                Subject = @event.Subject
+            };
+
             var context = _contextFactory.CreateDbContext();
-            context.Events.Add(@event);
+            context.Events.Add(newEvent);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
+            return CreatedAtAction(nameof(Get), new { id = newEvent.Id }, newEvent);
         }
 
         // DELETE: api/Events/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent(Guid id)
+        [HttpDelete("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Delete(Guid id)
         {
             var context = _contextFactory.CreateDbContext();
             var @event = await context.Events.FindAsync(id);

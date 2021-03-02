@@ -22,9 +22,10 @@ namespace UserMicroservice.API.Controllers
         }
 
         // GET: api/Users
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<User>))]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<User>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
             var context = _contextFactory.CreateDbContext();
             return await context.Users.ToListAsync();
@@ -34,7 +35,7 @@ namespace UserMicroservice.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<User>> GetUser(Guid id)
+        public async Task<ActionResult<User>> GetById(Guid id)
         {
             var context = _contextFactory.CreateDbContext();
             var user = await context.Users.FindAsync(id);
@@ -44,12 +45,14 @@ namespace UserMicroservice.API.Controllers
                 return NotFound();
             }
 
-            return user;
+            return Ok(user);
         }
 
         // GET: api/Users/email/
-        [HttpGet("{email:string}/")]
-        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        [HttpGet("{email}/")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<User>> GetByEmail(string email)
         {
             var context = _contextFactory.CreateDbContext();
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
@@ -59,59 +62,102 @@ namespace UserMicroservice.API.Controllers
                 return NotFound();
             }
 
-            return user;
+            return Ok(user);
         }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(Guid id, User user)
+        [HttpPut("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(Guid id, User update)
         {
-            if (id != user.Id)
+            if (id != update.Id)
             {
                 return BadRequest();
             }
 
             var context = _contextFactory.CreateDbContext();
-            context.Entry(user).State = EntityState.Modified;
+            var user = await context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Name = update.Name;
+            user.Password = update.Password;
+            user.Phone = update.Phone;
+            user.Phone2 = update.Phone2;
+            user.Adress = update.Adress;
+            user.City = update.City;
+            user.ZipCode = update.ZipCode;
+            user.Email = update.Email;
 
             try
             {
                 await context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException) when (!UserExists(id))
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
         }
-
+        
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<User>> Post(User postUser)
         {
+            var user = new User()
+            {
+                Name = postUser.Name,
+                Password = postUser.Password,
+                Phone = postUser.Phone,
+                Phone2 = postUser.Phone2,
+                Adress = postUser.Adress,
+                City = postUser.City,
+                ZipCode = postUser.ZipCode,
+                Email = postUser.Email
+            };
             var context = _contextFactory.CreateDbContext();
             context.Users.Add(user);
             await context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            
+            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
         }
 
         // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
+        [HttpDelete("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> DeleteById(Guid id)
         {
             var context = _contextFactory.CreateDbContext();
             var user = await context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            context.Users.Remove(user);
+            await context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE: api/Users/email
+        [HttpDelete("{email}/")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> DeleteByEmail(string email)
+        {
+            var context = _contextFactory.CreateDbContext();
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
             if (user == null)
             {
                 return NotFound();
@@ -128,23 +174,5 @@ namespace UserMicroservice.API.Controllers
             var context = _contextFactory.CreateDbContext();
             return context.Users.Any(e => e.Id == id);
         }
-
-        // DELETE: api/Users/email
-        [HttpDelete("{email:string}")]
-        public async Task<IActionResult> DeleteUser(string email)
-        {
-            var context = _contextFactory.CreateDbContext();
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            context.Users.Remove(user);
-            await context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
     }
 }
