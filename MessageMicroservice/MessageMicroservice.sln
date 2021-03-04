@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageMicroservice.Domain"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageMicroservice.Services", "MessageMicroservice.Services\MessageMicroservice.Services.csproj", "{43E190AC-EB8E-498C-AEED-5ED97D1F26CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageMicroservice.Tests", "MessageMicroservice.Tests\MessageMicroservice.Tests.csproj", "{C39B9679-BE79-400F-9149-1EF8695B676E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{43E190AC-EB8E-498C-AEED-5ED97D1F26CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43E190AC-EB8E-498C-AEED-5ED97D1F26CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43E190AC-EB8E-498C-AEED-5ED97D1F26CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C39B9679-BE79-400F-9149-1EF8695B676E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C39B9679-BE79-400F-9149-1EF8695B676E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C39B9679-BE79-400F-9149-1EF8695B676E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C39B9679-BE79-400F-9149-1EF8695B676E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -28,9 +28,10 @@ namespace MessageMicroservice.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<List<Message>> GetAll()
+        public async Task<ActionResult<List<Message>>> GetAll()
         {
-            return await _service.GetAllAsync();
+            var results = await _service.GetAllAsync();
+            return Ok(results);
         }
 
         // GET api/<MessagesController>/5
