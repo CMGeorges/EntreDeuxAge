@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,8 @@ namespace UserMicroservice.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     public class UsersController : ControllerBase
     {
         private readonly UserDbContextFactory _contextFactory;
@@ -113,6 +116,11 @@ namespace UserMicroservice.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<User>> Post(User postUser)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            
             var user = new User()
             {
                 Name = postUser.Name,

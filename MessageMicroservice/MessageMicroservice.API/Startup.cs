@@ -27,7 +27,7 @@ namespace MessageMicroservice.API
             services.AddControllers();
             services.Configure<MongoDatabaseSettings>(Configuration.GetSection(nameof(MongoDatabaseSettings)));
             services.AddSingleton<IMongoDatabaseSettings>(s => s.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
-            services.AddSingleton<MessageService>();
+            services.AddSingleton<IMessageService, MessageService>();
             services.AddDiscoveryClient(Configuration);
             services.AddServiceDiscovery(options => options.UseConsul());
             services.AddSwaggerGen(c =>
