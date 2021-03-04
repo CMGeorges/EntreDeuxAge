@@ -1,41 +1,37 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Events/",
-      "DownstreamScheme": "http",
-      "UseServiceDiscovery": true,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 6000
-        }
-      ],
-      "UpstreamPathTemplate": "/api/Events/",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
       "DownstreamPathTemplate": "/api/Users/",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5000
-        }
-      ],
+      "ServiceName": "users-service",
       "UpstreamPathTemplate": "/api/Users/",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/Messages/",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
-      "LoadBalancerOptions": {
-        "Type": "RoundRobin"
-      },
       "ServiceName": "messages-service",
       "UpstreamPathTemplate": "/api/Messages/",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Events/",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "ServiceName": "events-service",
+      "UpstreamPathTemplate": "/api/Events/",
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
     }
   ],
   "GlobalConfiguration": {
@@ -45,7 +41,9 @@
     "ServiceDiscoveryProvider": {
       "Host": "localhost",
       "Port": 8500,
-      "Type": "Consul"
+      "Type": "Consul",
+      "Scheme": "http",
+      "ConfigurationKey": "Gateway2Ages"
     }
   }
 }

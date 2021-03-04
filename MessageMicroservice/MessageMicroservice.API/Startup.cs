@@ -8,8 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Steeltoe.Discovery.Client;
+using Steeltoe.Discovery.Consul;
 
-namespace MessageMicroservice
+namespace MessageMicroservice.API
 {
     public class Startup
     {
@@ -28,6 +29,7 @@ namespace MessageMicroservice
             services.AddSingleton<IMongoDatabaseSettings>(s => s.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
             services.AddSingleton<MessageService>();
             services.AddDiscoveryClient(Configuration);
+            services.AddServiceDiscovery(options => options.UseConsul());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MessageMicroservice", Version = "v1" });

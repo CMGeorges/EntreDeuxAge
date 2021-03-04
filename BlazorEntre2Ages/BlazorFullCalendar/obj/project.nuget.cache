@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "dgSpecHash": "sRRNg7NezNxaO8QTFLi29MQk8Tu5SkzwzxGEN3eHOj/7N9LR73dZQiaqeczwP7ZstaVoz0k9gfks97gVJjaddA==",
+  "success": true,
+  "projectFilePath": "F:\\Code\\Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.aspnetcore.authorization\\3.1.2\\microsoft.aspnetcore.authorization.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.aspnetcore.components\\3.1.2\\microsoft.aspnetcore.components.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\3.1.2\\microsoft.aspnetcore.components.analyzers.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.aspnetcore.components.forms\\3.1.2\\microsoft.aspnetcore.components.forms.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.aspnetcore.components.web\\3.1.2\\microsoft.aspnetcore.components.web.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.aspnetcore.metadata\\3.1.2\\microsoft.aspnetcore.metadata.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\3.1.2\\microsoft.extensions.dependencyinjection.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.2\\microsoft.extensions.dependencyinjection.abstractions.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.2\\microsoft.extensions.logging.abstractions.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.extensions.options\\3.1.2\\microsoft.extensions.options.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.2\\microsoft.extensions.primitives.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\microsoft.jsinterop\\3.1.2\\microsoft.jsinterop.3.1.2.nupkg.sha512",
+    "C:\\Users\\Benjamin\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -125,7 +125,7 @@ namespace UserMicroservice.API.Controllers
                 Email = postUser.Email
             };
             var context = _contextFactory.CreateDbContext();
-            context.Users.Add(user);
+            await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
             
             return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);

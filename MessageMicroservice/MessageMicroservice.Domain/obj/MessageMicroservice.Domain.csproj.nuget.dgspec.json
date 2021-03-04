@@ -14,7 +14,7 @@
         "outputPath": "F:\\Code\\Entre2Ages\\MessageMicroservice\\MessageMicroservice.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Microsoft\\Xamarin\\NuGet"
         ],
         "configFilePaths": [
           "C:\\Users\\Benjamin\\AppData\\Roaming\\NuGet\\NuGet.Config",

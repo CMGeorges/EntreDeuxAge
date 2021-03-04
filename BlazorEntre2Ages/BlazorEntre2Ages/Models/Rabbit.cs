@@ -24,7 +24,7 @@ namespace BlazorEntre2Ages.Models
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel(); ;
-            _channel.QueueDeclare(queue: "hello",
+            _channel.QueueDeclare(queue: "entre2ages",
                      durable: false,
                      exclusive: false,
                      autoDelete: false,
@@ -46,7 +46,7 @@ namespace BlazorEntre2Ages.Models
             var body = Encoding.UTF8.GetBytes(json);
 
             _channel.BasicPublish(exchange: "",
-                                 routingKey: "hello",
+                                 routingKey: "entre2ages",
                                  basicProperties: null,
                                  body: body);
         }

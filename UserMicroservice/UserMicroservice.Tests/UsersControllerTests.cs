@@ -54,6 +54,14 @@ namespace UserMicroservice.Tests
             Assert.True(model.Count()>=10);
         }
 
+        [Theory]
+        [InlineData(4, 0)]
+        [InlineData(12, 5)]
+        public async Task Test2(int a, int b)
+        {
+            Assert.True(a>b);
+        }
+        
         [Fact]
         public async Task GetById_ShouldReturnUser()
         {
@@ -98,7 +106,8 @@ namespace UserMicroservice.Tests
         [Fact]
         public async Task Get_ShouldReturnNullWithWrongId()
         {
-            var result = await Controller.GetById(Guid.NewGuid());
+            var guid = Guid.NewGuid();
+            var result = await Controller.GetById(guid);
             Assert.Null(result.Value);
         }
 

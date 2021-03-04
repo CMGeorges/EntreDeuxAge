@@ -21,7 +21,7 @@ namespace TokenGenerator.API.Controllers
         {
             var user = await RequestUser(model);
 
-            if (user == null || user.Email == null)
+            if (user?.Email == null)
             {
                 return NotFound(model.Email);
             }

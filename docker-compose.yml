@@ -34,7 +34,18 @@ services:
     networks:
       - entre2ages
     container_name: events
-
+  images:
+    image: postgres:alpine
+    restart: always
+    env_file:
+      - images.env
+    ports:
+      - 5433:5432
+    volumes:
+      - ./images:/var/lib/postgresql/data
+    networks:
+      - entre2ages
+    container_name: users
   rabbitmq:
     image: rabbitmq:3-management
     restart: always

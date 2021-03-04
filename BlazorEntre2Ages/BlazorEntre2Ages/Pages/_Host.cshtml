@@ -13,6 +13,22 @@
     <title>BlazorEntre2Ages</title>
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href='https://unpkg.com/@@fullcalendar/core@@4.4.2/main.min.css' rel='stylesheet' />
+    <link href='https://unpkg.com/@@fullcalendar/daygrid@@4.4.2/main.min.css' rel='stylesheet' />
+    <link href='https://unpkg.com/@@fullcalendar/timegrid@@4.4.2/main.min.css' rel='stylesheet' />
+    <link href='https://unpkg.com/@@fullcalendar/timeline@@4.4.2/main.min.css' rel='stylesheet' />
+    <link href='https://unpkg.com/@@fullcalendar/resource-timeline@@4.4.2/main.min.css' rel='stylesheet' />
+
+    <script src="https://unpkg.com/@@fullcalendar/bootstrap@@4.4.2/main.min.js"></script>
+    <script src='https://unpkg.com/@@fullcalendar/core@@4.4.2/main.min.js'></script>
+    <script src='https://unpkg.com/@@fullcalendar/interaction@@4.4.2/main.min.js'></script>
+    <script src='https://unpkg.com/@@fullcalendar/daygrid@@4.4.2/main.min.js'></script>
+    <script src='https://unpkg.com/@@fullcalendar/timegrid@@4.4.2/main.min.js'></script>
+    <script src='https://unpkg.com/@@fullcalendar/timeline@@4.4.2/main.min.js'></script>
+    <script src='https://unpkg.com/@@fullcalendar/resource-common@@4.4.2/main.min.js'></script>
+    <script src='https://unpkg.com/@@fullcalendar/resource-timeline@@4.4.2/main.min.js'></script>
+    <script src='https://unpkg.com/@@fullcalendar/google-calendar@@4.4.2/main.min.js'></script>
+
     <link href="css/site.css" rel="stylesheet" />
     <link href="BlazorEntre2Ages.styles.css" rel="stylesheet" />
 </head>
@@ -29,7 +45,113 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+@*<script>
+        window.calendar = (id) => {
+            let calendarEl = document.getElementById(id);
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                timeZone: 'local',
+                schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+                contentHeight: 600,
+                themeSystem: 'bootstrap',
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'today,dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                navLinks: true,
+                editable: false,
+                dayMaxEvents: true,
+                selectable: true,
+                businessHours: {
+                    daysOfWeek: [1, 2, 3, 4, 5],
+                    startTime: '9:00',
+                    endTime: '20:00',
+                },
+                firstDay: 0,
+                locale: 'fr'
+    /*          eventSources: [{
+                    url: '/secretaire/GetEvents',
+                    method: 'GET',
+                }],*/
+    /*          eventClick: function (calEvent) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Secretaire/Edit/' + calEvent.event.extendedProps.eventid,
+                        dataType: 'html',
+                        success: function (evt) {
+                            $('#editionRDV').html(evt);
+                            $('#editionRDV').modal();
+                        },
+                        error: function (req, status, error) {
+                            console.log(req);
+                        }
+                    });
 
+                },
+                dateClick: function (info) {
+                    //$.ajax({
+                    //    type: "GET",
+                    //    url: "/Secretaire/CreatePartial/" + info.dateStr,
+                    //    dataType: "html",
+                    //    success: function (evt) {
+                    //        //$('#txtStart').val(info.dateStr);
+                    //        $('#creationRDV').html(evt);
+                    //        $('#creationRDV').modal();
+                    //    },
+                    //    error: function (req, status, error) {
+                    //        console.log(req);
+                    //    }
+                    //})
+                    $('#endmodal').val(info.dateStr);
+                    $('#startmodal').val(info.dateStr);
+                    $('#creationRDV').modal();
+                },*/
+            });
+            calendar.render();
+    /*                $('#datetimepicker3').datetimepicker({
+                locale: 'fr-ca',
+                daysOfWeekDisabled: [0, 6]
+            });
+            $('#datetimepicker3').on("change.datetimepicker", function (e) {
+                $('#datetimepicker4').datetimepicker('minDate', e.date);
+            });
+            $('#datetimepicker4').datetimepicker({
+                locale: 'fr-ca',
+                useCurrent: false,
+                daysOfWeekDisabled: [0, 6]
+            });
+            $('#datetimepicker4').on("change.datetimepicker", function (e) {
+                $('#datetimepicker3').datetimepicker('maxDate', e.date);
+            });
+            $('#datetimepicker1').datetimepicker({
+                locale: 'fr-ca',
+                daysOfWeekDisabled: [0, 6]
+            });
+            $('#datetimepicker1').on("change.datetimepicker", function (e) {
+                $('#datetimepicker2').datetimepicker('minDate', e.date);
+                $('#datetimepicker2').data("DateTimePicker").date(moment(e.date).add(30, "minutes"));
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'fr-ca',
+                useCurrent: false,
+                daysOfWeekDisabled: [0, 6]
+            });
+            $('#datetimepicker2').on("change.datetimepicker", function (e) {
+                $('#datetimepicker1').datetimepicker('maxDate', e.date);
+            });
+            $('#datetimepicker6').datetimepicker({
+                locale: 'fr-ca',
+                daysOfWeekDisabled: [0, 6]
+            });
+            $('#datetimepicker7').datetimepicker({
+                locale: 'fr-ca',
+                daysOfWeekDisabled: [0, 6]
+            });*/
+        }
+    </script>*@
+    <script src="_content/BlazorFullCalendar/BlazorFullCalendar.js"></script>
     <script src="_framework/blazor.server.js"></script>
+
 </body>
 </html>

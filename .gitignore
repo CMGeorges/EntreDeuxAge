@@ -1,7 +1,10 @@
 /messages
 /users
 /events
+/images
 events.env
 users.env
+images.env
 Entre2Ages.zip
 /Certificates
+/ignore

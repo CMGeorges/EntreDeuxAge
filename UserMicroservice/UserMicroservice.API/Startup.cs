@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Steeltoe.Discovery.Client;
+using Steeltoe.Discovery.Consul;
 using UserMicroservice.EntityFramework;
 
 namespace UserMicroservice
@@ -30,6 +31,7 @@ namespace UserMicroservice
             services.AddSingleton(new UserDbContextFactory(configureDbContext));
             services.AddControllers();
             services.AddDiscoveryClient(Configuration);
+            services.AddServiceDiscovery(o => o.UseConsul());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "UserMicroservice", Version = "v1"});

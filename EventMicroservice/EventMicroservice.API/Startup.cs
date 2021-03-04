@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Steeltoe.Discovery.Client;
+using Steeltoe.Discovery.Consul;
 
 namespace EventMicroservice.API
 {
@@ -30,7 +31,7 @@ namespace EventMicroservice.API
             services.AddSingleton(new EventDbContextFactory(configureDbContext));
             services.AddControllers();
             services.AddDiscoveryClient(Configuration);
-
+            services.AddServiceDiscovery(o => o.UseConsul());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EventMicroservice.API", Version = "v1" });
