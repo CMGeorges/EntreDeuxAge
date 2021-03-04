@@ -1,23 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Code\\Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj": {}
+    "F:\\Users\\camsl\\Source\\Repos\\Projet Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj": {}
   },
   "projects": {
-    "F:\\Code\\Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj": {
+    "F:\\Users\\camsl\\Source\\Repos\\Projet Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Code\\Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj",
+        "projectUniqueName": "F:\\Users\\camsl\\Source\\Repos\\Projet Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj",
         "projectName": "BlazorFullCalendar",
-        "projectPath": "F:\\Code\\Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj",
-        "packagesPath": "C:\\Users\\Benjamin\\.nuget\\packages\\",
-        "outputPath": "F:\\Code\\Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\obj\\",
+        "projectPath": "F:\\Users\\camsl\\Source\\Repos\\Projet Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj",
+        "packagesPath": "C:\\Users\\camsl\\.nuget\\packages\\",
+        "outputPath": "F:\\Users\\camsl\\Source\\Repos\\Projet Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Benjamin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\camsl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -72,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
