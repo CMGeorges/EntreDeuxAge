@@ -11,10 +11,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BlazorFullCalendar\BlazorFullCalendar.csproj" />
+    <PackageReference Include="Radzen.Blazor" Version="3.1.4" />
   </ItemGroup>
 
 </Project>

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Radzen;
 
 namespace BlazorEntre2Ages
 {
@@ -30,16 +31,25 @@ namespace BlazorEntre2Ages
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.Configure<AppSettings>(Configuration.GetSection("UserService"));
-            services.AddTransient<ValidateHeaderHandler>();
+
             services.AddSingleton<IMessageService, MessageService>();
             services.AddSingleton<IUserService, UserService>();
-            services.AddHttpClient<IUserService, UserService>();
-            services.AddSingleton<HttpClient>();
-            services.AddBlazoredLocalStorage();
-            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<Rabbit>();
+            services.AddSingleton<HttpClient>();
+            
+            services.AddBlazoredLocalStorage();
+            
+            services.AddScoped<DialogService>();
+            services.AddScoped<NotificationService>();
+            services.AddScoped<TooltipService>();
+            services.AddScoped<ContextMenuService>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+            services.AddHttpClient<IUserService, UserService>();
+            
             services.AddHostedService<Rabbit>();
-            services.AddSignalR();
+            
+            services.AddTransient<ValidateHeaderHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,9 +74,9 @@ namespace BlazorEntre2Ages
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
-                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }
