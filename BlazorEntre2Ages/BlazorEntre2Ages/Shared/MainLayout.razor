@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using BlazorEntre2Ages.Models
+@using BlazorEntre2Ages.Authentication
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +11,14 @@
 
     <div class="main">
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <AuthorizeView>
+                <Authorized>
+                    <a href="/" @onclick="Logout">Logout</a>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/">Login</a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <div class="content px-4">
@@ -15,3 +26,11 @@
         </div>
     </div>
 </div>
+
+@code{
+    public async Task Logout()
+    {
+        await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
+        NavigationManager.NavigateTo("");
+    }
+}

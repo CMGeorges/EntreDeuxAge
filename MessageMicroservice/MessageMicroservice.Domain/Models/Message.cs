@@ -14,8 +14,6 @@ namespace MessageMicroservice.Domain.Models
         public string Id { get; set; }
         [BsonElement("author")]
         public Guid Author { get; set; }
-        [BsonElement("guest")]
-        public Guid Guest { get; set; }
         [BsonElement("body")]
         public string Body { get; set; }
         [BsonElement("timeStamp")]

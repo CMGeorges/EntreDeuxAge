@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "dQFzp1E/5Jz4zKHhu4K1+OHrCNs9ACNy7fQMuM/uDirzdKH18ST6ScdHK3CckYebuhSVCJzMnVIENWw0XF0TYg==",
+=======
+  "dgSpecHash": "9MGvZfWJZdmBeX2fpON/ohGrZ985b2KH7aiacsrCdoBRbRp8s3WbNMMVJEZa18lVyFu5UCrESoWHkQdp97PJUA==",
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "F:\\Users\\camsl\\Source\\Repos\\Projet Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\BlazorFullCalendar.csproj",
   "expectedPackageFiles": [

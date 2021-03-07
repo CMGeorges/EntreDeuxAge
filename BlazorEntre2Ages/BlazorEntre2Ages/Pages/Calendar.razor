@@ -1,14 +1,14 @@
 ﻿@inherits CalendarPageBase
 @page "/Calendar"
 
-<FullCalendar settings="@calendarSettings" />
+<FullCalendar settings="@CalendarSettings" />
 
 @code {
-    public CalendarSettings calendarSettings { get; set; }
+    public CalendarSettings CalendarSettings { get; set; }
 
     protected override void OnInitialized()
     {
-        calendarSettings = new CalendarSettings()
+        CalendarSettings = new CalendarSettings()
         {
             plugins = new[] {CalendarPluginTypes.DayGrid, CalendarPluginTypes.Interaction},
             defaultView = "dayGridTwoMonths",

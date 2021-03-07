@@ -7,8 +7,6 @@ using MessageMicroservice.Services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace MessageMicroservice.API.Controllers
 {
     [Route("api/[controller]")]
@@ -71,7 +69,6 @@ namespace MessageMicroservice.API.Controllers
 
             var message = new Message()
             {
-                Guest = postMessage.Guest,
                 Author = postMessage.Author,
                 TimeStamp = postMessage.TimeStamp,
                 Body = postMessage.Body

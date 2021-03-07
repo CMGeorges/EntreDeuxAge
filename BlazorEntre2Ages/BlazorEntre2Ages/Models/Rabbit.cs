@@ -37,8 +37,7 @@ namespace BlazorEntre2Ages.Models
             var messageObject = new Message
             {
                 Author = Guid.NewGuid(),
-                Guest = Guid.NewGuid(),
-                TimeStamp = DateTime.Now.Ticks,
+                TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 Body = message
             };
             var json = JsonConvert.SerializeObject(messageObject);
@@ -51,6 +50,15 @@ namespace BlazorEntre2Ages.Models
                                  body: body);
         }
 
+        public void SendMessage(Message message)
+        {
+            var json = JsonConvert.SerializeObject(message);
+            var body = Encoding.UTF8.GetBytes(json);
+            _channel.BasicPublish(exchange: "",
+                routingKey: "entre2ages",
+                basicProperties: null,
+                body: body);
+        }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             Message messageObject = null;

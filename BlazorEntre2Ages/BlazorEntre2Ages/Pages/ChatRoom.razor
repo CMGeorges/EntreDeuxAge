@@ -1,37 +1,53 @@
 ﻿@page "/chatroom"
 @using BlazorEntre2Ages.Services
 @using BlazorEntre2Ages.Models
+@using System.Globalization
 @inject IMessageService MessageService
+@inject Rabbit Rabbit
 
 <h3>ChatRoom</h3>
-@if (_messages == null)
-{
-    <h4>Loading...</h4>
-}
-else
-{
-    <div id="scrollbox" class="h-100">
-        @foreach (var item in _messages)
+<AuthorizeView>
+    <Authorized>
+        @if (_messages == null)
         {
-            <div class="@item.CSS">
-                <div class="user">@item.Author</div>
-                <div class="msg">@item.Body</div>
-                <div class="timestamp">@epoch2string((int) item.TimeStamp)</div>
+            <h4>Loading...</h4>
+        }
+        else
+        {
+            <div id="scrollbox" class="h-100">
+                @foreach (var item in _messages)
+                {
+                    <div class="@item.Css">
+                        <div class="user">@item.Author</div>
+                        <div class="msg">@item.Body</div>
+                        <div class="timestamp">@Epoch2String(item.TimeStamp)</div>
+                    </div>
+                }
+                <hr />
+
             </div>
         }
-        <hr />
 
-    </div>
-    <div>
-        <textarea class="input-lg" placeholder="enter your comment"></textarea>
-        <button class="btn btn-default">Send</button>
-    </div>
-}
-
+        <div>
+            <textarea class="input-lg" placeholder="Entrez votre message..." @bind="Description" @bind:event="oninput"></textarea>
+            <button @onclick="SendMessage" class="btn btn-primary" aria-disabled="@DisabledState">Envoyer</button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div>
+            <h3>
+                Merci de vous connecter pour envoyer des messages.
+            </h3>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 @code {
 
     IEnumerable<Message> _messages;
+    public string Description { get; set; } = string.Empty;
 
+    public bool DisabledState => Description.Length == 0 ? true : false;
+    
     protected override async Task OnInitializedAsync()
     {
         MessageService.OnChangeAsync += async mess =>
@@ -45,10 +61,21 @@ else
         };
     }
 
-    private string epoch2string(int epoch)
+    private static string Epoch2String(long epoch)
     {
         //return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(epoch).ToString();
-        return DateTimeOffset.FromUnixTimeSeconds(epoch).LocalDateTime.ToString();
+        return DateTimeOffset.FromUnixTimeSeconds(epoch).LocalDateTime.ToString(CultureInfo.CurrentCulture);
     }
 
+    private void SendMessage(MouseEventArgs arg)
+    {
+        var message = new Message
+        {
+            Author = Guid.NewGuid(),
+            TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            Body = Description
+        };
+    
+        Rabbit.SendMessage(message);
+    }
 }

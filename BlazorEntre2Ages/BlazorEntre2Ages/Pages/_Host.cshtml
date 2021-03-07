@@ -1,6 +1,7 @@
 ﻿@page "/"
 @namespace BlazorEntre2Ages.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     Layout = null;
 }
@@ -33,7 +34,9 @@
     <link href="BlazorEntre2Ages.styles.css" rel="stylesheet" />
 </head>
 <body>
-    <component type="typeof(App)" render-mode="ServerPrerendered" />
+    <app>
+
+    @(await Html.RenderComponentAsync<App>(RenderMode.Server))
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
@@ -150,6 +153,7 @@
             });*/
         }
     </script>*@
+    </app>
     <script src="_content/BlazorFullCalendar/BlazorFullCalendar.js"></script>
     <script src="_framework/blazor.server.js"></script>
 

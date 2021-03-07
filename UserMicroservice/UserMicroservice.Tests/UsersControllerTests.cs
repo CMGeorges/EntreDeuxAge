@@ -26,16 +26,17 @@ namespace UserMicroservice.Tests
                 .RuleFor(u => u.Name, f => f.Name.FirstName(Gender.Male))
                 .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.Name))
                 .RuleFor(u => u.Password, f => f.Internet.Password())
-                .RuleFor(u => u.Adress, f => f.Address.StreetAddress())
+                .RuleFor(u => u.Address, f => f.Address.StreetAddress())
                 .RuleFor(u => u.City, f => f.Address.City())
                 .RuleFor(u => u.ZipCode, f => f.Address.ZipCode())
                 .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber())
                 .RuleFor(u => u.Phone2, f => f.Phone.PhoneNumber())
                 .RuleFor(u => u.Id, f => f.Random.Guid());
 
+            var fakeJwtSettings = new Faker<JwtSettings>();
             Action<DbContextOptionsBuilder> builder = o => o.UseInMemoryDatabase("entre2ages");
             Factory = new UserDbContextFactory(builder);
-            Controller = new UsersController(Factory);
+            Controller = new UsersController(Factory, fakeJwtSettings);
         }
 
         [Fact]
@@ -46,8 +47,8 @@ namespace UserMicroservice.Tests
               .Select(_ => Faker.Generate())
               .ToList();
 
-            context.Users.AddRange(users);
-            context.SaveChanges();
+            await context.Users.AddRangeAsync(users);
+            await context.SaveChangesAsync();
 
             var result = await Controller.GetAll();
             var model = Assert.IsAssignableFrom<IEnumerable<User>>(result.Value);
@@ -67,8 +68,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var getResult = await Controller.GetById(user.Id);
 
             var result = (getResult.Result as OkObjectResult);
@@ -80,7 +81,7 @@ namespace UserMicroservice.Tests
             Assert.Equal(user.Password, model.Password);
             Assert.Equal(user.Phone, model.Phone);
             Assert.Equal(user.Phone2, model.Phone2);
-            Assert.Equal(user.Adress, model.Adress);
+            Assert.Equal(user.Address, model.Address);
             Assert.Equal(user.City, model.City);
             Assert.Equal(user.ZipCode, model.ZipCode);
             Assert.Equal(user.Email, model.Email);
@@ -97,7 +98,7 @@ namespace UserMicroservice.Tests
             Assert.Equal(userWithoutId.Password, value.Password);
             Assert.Equal(userWithoutId.Phone, value.Phone);
             Assert.Equal(userWithoutId.Phone2, value.Phone2);
-            Assert.Equal(userWithoutId.Adress, value.Adress);
+            Assert.Equal(userWithoutId.Address, value.Address);
             Assert.Equal(userWithoutId.City, value.City);
             Assert.Equal(userWithoutId.ZipCode, value.ZipCode);
             Assert.Equal(userWithoutId.Email, value.Email);
@@ -108,6 +109,8 @@ namespace UserMicroservice.Tests
         {
             var guid = Guid.NewGuid();
             var result = await Controller.GetById(guid);
+            var notFoundResult = result.Result as NotFoundResult;
+            Assert.Equal(404, notFoundResult.StatusCode);
             Assert.Null(result.Value);
         }
 
@@ -123,8 +126,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var userUpdated = Faker.RuleFor(u => u.Id, f => user.Id).Generate();
             var result = await Controller.Update(user.Id, userUpdated) as NoContentResult;
             Assert.Equal(204, result.StatusCode);
@@ -135,8 +138,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var userUpdated = Faker.RuleFor(u => u.Id, f => f.Random.Guid()).Generate();
             var result = await Controller.Update(user.Id, userUpdated) as BadRequestResult;
             Assert.Equal(400, result.StatusCode);
@@ -157,8 +160,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var result = (await Controller.GetByEmail(user.Email)).Result as OkObjectResult;
             var value = (result.Value as User);
             var model = Assert.IsAssignableFrom<User>(value);
@@ -167,7 +170,7 @@ namespace UserMicroservice.Tests
             Assert.Equal(user.Password, model.Password);
             Assert.Equal(user.Phone, model.Phone);
             Assert.Equal(user.Phone2, model.Phone2);
-            Assert.Equal(user.Adress, model.Adress);
+            Assert.Equal(user.Address, model.Address);
             Assert.Equal(user.City, model.City);
             Assert.Equal(user.ZipCode, model.ZipCode);
             Assert.Equal(user.Email, model.Email);
@@ -178,8 +181,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var deleteResult = await Controller.DeleteById(user.Id) as NoContentResult;
             Assert.Equal(204,deleteResult.StatusCode);
         }
@@ -189,8 +192,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var deleteResult = await Controller.DeleteByEmail(user.Email) as NoContentResult;
             Assert.Equal(204, deleteResult.StatusCode);
         }
@@ -200,8 +203,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Ignore("Email").Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var deleteResult = await Controller.DeleteByEmail(new Internet().Email()) as NotFoundResult;
             Assert.Equal(404, deleteResult.StatusCode);
         }
@@ -211,8 +214,8 @@ namespace UserMicroservice.Tests
         {
             var context = Factory.CreateDbContext();
             var user = Faker.Generate();
-            context.Users.Add(user);
-            context.SaveChanges();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
             var deleteResult = await Controller.DeleteById(Guid.NewGuid()) as NotFoundResult;
             Assert.Equal(404, deleteResult.StatusCode);
         }

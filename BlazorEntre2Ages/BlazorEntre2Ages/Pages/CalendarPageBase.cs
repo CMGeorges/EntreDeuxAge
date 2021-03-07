@@ -12,7 +12,7 @@ namespace BlazorEntre2Ages.Pages
         {
             var r = new Random();
             var eventList = new List<CalendarDateItem>();
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var randomStart = DateTime.Now.Subtract(new TimeSpan(r.Next(-maxHours, maxHours), r.Next(-60, 60), r.Next(-60, 60)));
                 var randomEnd = randomStart.Add(new TimeSpan(r.Next(0, maxEventDuration), r.Next(15, 60), r.Next(0, 60)));

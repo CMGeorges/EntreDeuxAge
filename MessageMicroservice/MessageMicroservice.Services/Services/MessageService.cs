@@ -30,7 +30,7 @@ namespace MessageMicroservice.Services.Services
 
         public async Task<List<Message>> GetByGuidAsync(Guid guid)
         {
-            return await _messages.Find(m => m.Author == guid || m.Guest == guid).ToListAsync();
+            return await _messages.Find(m => m.Author == guid).ToListAsync();
         }
 
         public Task Insert(Message message)
@@ -55,7 +55,5 @@ namespace MessageMicroservice.Services.Services
         {
             return await _messages.FindOneAndReplaceAsync(m => m.Id == id, message);
         }
-
-
     }
 }

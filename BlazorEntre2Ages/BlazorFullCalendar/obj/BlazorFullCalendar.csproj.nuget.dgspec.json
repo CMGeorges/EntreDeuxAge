@@ -14,8 +14,12 @@
         "outputPath": "F:\\Users\\camsl\\Source\\Repos\\Projet Entre2Ages\\BlazorEntre2Ages\\BlazorFullCalendar\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+<<<<<<< Updated upstream
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+=======
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+>>>>>>> Stashed changes
         ],
         "configFilePaths": [
           "C:\\Users\\camsl\\AppData\\Roaming\\NuGet\\NuGet.Config",

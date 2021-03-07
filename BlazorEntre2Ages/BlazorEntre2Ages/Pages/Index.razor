@@ -1,7 +1,54 @@
-﻿@page "/"
+﻿@page "/index"
+@using System.Security.Claims
+@using System.Security.Claims
+@using Blazored.LocalStorage
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorageService
+@inject IAuthorizationService AuthorizationService
 
-<h1>Hello, world!</h1>
+<h1>Bienvenue sur la plateforme Entre2Ages</h1>
 
-Welcome to your new app.
+@if (_isUserAuthenticated)
+{
+    <h3><b>
+        @if (_user.Identity != null)
+        {
+            @_user.Identity.Name
+        }
+    </b> is logged in!</h3>
+    <br />
+}
+else
+{
+    <h3><b>User is logged out</b></h3>
+}
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div style="height: 50%;width: 50%">
+    <FullCalendar settings="@CalendarSettings"></FullCalendar>
+</div>
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    ClaimsPrincipal _user;
+
+    bool _isUserAuthenticated;
+    
+    public CalendarSettings CalendarSettings { get; set; }  = new CalendarSettings()
+    {
+        plugins = new[] { CalendarPluginTypes.DayGrid, CalendarPluginTypes.Interaction },
+        defaultView = "dayGridMonth",
+        timeZone = "UTC",
+        eventSources = new List<CalendarSourceFeed>()
+        {
+            new() { url = "https://canada-holidays.ca/api/v1/provinces/QC", extraParams = new Dictionary<string, string>(){ { "custom","dummy"} } }
+        }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = (await AuthenticationStateTask).User;
+
+        if (_user.Identity.IsAuthenticated)
+            _isUserAuthenticated = true;
+    }
+}
