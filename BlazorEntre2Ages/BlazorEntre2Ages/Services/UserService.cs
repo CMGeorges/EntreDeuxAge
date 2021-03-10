@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
@@ -38,7 +39,6 @@ namespace BlazorEntre2Ages.Services
             };
 
             var response = await _httpClient.SendAsync(requestMessage);
-            var responseStatusCode = response.StatusCode;
             var responseBody = await response.Content.ReadAsStringAsync();
             var returnedUser = JsonConvert.DeserializeObject<User>(responseBody);
             
@@ -59,7 +59,6 @@ namespace BlazorEntre2Ages.Services
 
             var response = await _httpClient.SendAsync(requestMessage);
 
-            var responseStatusCode = response.StatusCode;
             var responseBody = await response.Content.ReadAsStringAsync();
 
             var returnedUser = JsonConvert.DeserializeObject<User>(responseBody);
@@ -80,7 +79,6 @@ namespace BlazorEntre2Ages.Services
 
             var response = await _httpClient.SendAsync(requestMessage);
 
-            var responseStatusCode = response.StatusCode;
             var responseBody = await response.Content.ReadAsStringAsync();
 
             var returnedUser = JsonConvert.DeserializeObject<User>(responseBody);
@@ -99,8 +97,6 @@ namespace BlazorEntre2Ages.Services
                 Content = new StringContent(serializedRefreshRequest, Encoding.UTF8, "application/json")
             };
             var response = await _httpClient.SendAsync(requestMessage);
-
-            var responseStatusCode = response.StatusCode;
             var responseBody = await response.Content.ReadAsStringAsync();
             
             var returnedUser = JsonConvert.DeserializeObject<User>(responseBody);
@@ -114,6 +110,21 @@ namespace BlazorEntre2Ages.Services
             const string salt = "RandomSalt";            
             var bytes = provider.ComputeHash(Encoding.UTF32.GetBytes(salt + password));
             return BitConverter.ToString(bytes).Replace("-","").ToLower();
+        }
+
+        public async Task<List<User>> GetAll()
+        {
+            var requestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(_settings.Url +"api/Users/"),
+            };
+
+            var response = await _httpClient.SendAsync(requestMessage);
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            var returnedUsers = JsonConvert.DeserializeObject<List<User>>(responseBody);
+            return returnedUsers;
         }
     }
 }

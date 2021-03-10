@@ -25,7 +25,8 @@ namespace EventMicroservice.API
         public void ConfigureServices(IServiceCollection services)
         {
             string connexionString = Configuration.GetConnectionString("ConnectionString");
-            Action<DbContextOptionsBuilder> configureDbContext = o => o.UseNpgsql(connexionString);
+            Action<DbContextOptionsBuilder> configureDbContext =
+                o => o.UseNpgsql(connexionString).UseSnakeCaseNamingConvention();
 
             services.AddDbContext<EventDbContext>(configureDbContext);
             services.AddSingleton(new EventDbContextFactory(configureDbContext));

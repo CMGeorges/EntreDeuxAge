@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EventMicroservice.EntityFramework
 {
@@ -12,7 +10,8 @@ namespace EventMicroservice.EntityFramework
 
         public EventDbContextFactory()
         {
-
+            var connexionString = "Server=localhost;Username=postgres;Password=pass;Database=entre2ages;Port=5431";
+            _configureDbContext = o => o.UseNpgsql(connexionString).UseSnakeCaseNamingConvention();
         }
 
         public EventDbContextFactory(Action<DbContextOptionsBuilder> configureDbContext)

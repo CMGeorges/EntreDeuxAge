@@ -1,12 +1,14 @@
 ﻿@using BlazorEntre2Ages.Models
+@using BlazorEntre2Ages.Models.Radzen
+@using BlazorEntre2Ages.Services
 @inject DialogService DialogService
+@inject IEventService EventService
 @page "/calendar"
-
 
 <div class="row">
     <div class="col-xl-6">
-        <RadzenScheduler @ref=@Scheduler style="height: 768px;" TItem="Appointment" Data="@_appointments" StartProperty="Start" EndProperty="End"
-                          TextProperty="Text" SelectedIndex="2"
+        <RadzenScheduler @ref=@Scheduler style="height: 768px;" TItem="Appointment" Data="@Appointments" StartProperty="Start" EndProperty="End"
+                          TextProperty="Subject" SelectedIndex="2"
                           SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
             <RadzenDayView />
             <RadzenWeekView />
@@ -20,29 +22,33 @@
 
 @code {
     public RadzenScheduler<Appointment> Scheduler;
-    Dictionary<DateTime, string> _events = new Dictionary<DateTime, string>();
 
-    readonly IList<Appointment> _appointments = new List<Appointment>
+    public List<Appointment> Appointments;
+
+    protected override async Task OnInitializedAsync()
     {
-    new Appointment { Start = DateTime.Today.AddDays(-2), End = DateTime.Today.AddDays(-2), Text = "Birthday" },
-    new Appointment { Start = DateTime.Today.AddDays(-11), End = DateTime.Today.AddDays(-10), Text = "Day off" },
-    new Appointment { Start = DateTime.Today.AddDays(-10), End = DateTime.Today.AddDays(-8), Text = "Work from home" },
-    new Appointment { Start = DateTime.Today.AddHours(10), End = DateTime.Today.AddHours(12), Text = "Online meeting" },
-    new Appointment { Start = DateTime.Today.AddHours(10), End = DateTime.Today.AddHours(13), Text = "Skype call" },
-    new Appointment { Start = DateTime.Today.AddHours(14), End = DateTime.Today.AddHours(14).AddMinutes(30), Text = "Dentist appointment" },
-    new Appointment { Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(12), Text = "Vacation" },
-    };
-    
+        var events = await EventService.GetAll();
+        foreach (var e in events)
+        {
+            Appointments.Add(e.ToAppointment());
+        }
+    }
+
     async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
     {
-        //console.Log($"SlotSelect: Start={args.Start} End={args.End}");
-
         Appointment data = await DialogService.OpenAsync<AddAppointmentPage>("Add Appointment",
-            new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
+            new Dictionary<string, object>
+            {
+                { "Start", args.Start },
+                { "End", args.End },
+                /*{ "Subject", args.Subject },
+                {"Guest", args.Guest },
+                { "Status", args.Status}*/
+            });
 
         if (data != null)
         {
-            _appointments.Add(data);
+            Appointments.Add(data);
             // Either call the Reload method or reassign the Data property of the Scheduler
             await Scheduler.Reload();
         }
@@ -50,18 +56,15 @@
 
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Appointment> args)
     {
-        //console.Log($"AppointmentSelect: Appointment={args.Data.Text}");
-
-        await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment", new Dictionary<string, object> { { "Appointment", args.Data } });
+        await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment",
+            new Dictionary<string, object> { { "Appointment", args.Data } });
 
         await Scheduler.Reload();
     }
 
     void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Appointment> args)
     {
-        // Never call StateHasChanged in AppointmentRender - would lead to infinite loop
-
-        if (args.Data.Text == "Birthday")
+        if (args.Data.Subject == "Birthday")
         {
             args.Attributes["style"] = "background: red";
         }

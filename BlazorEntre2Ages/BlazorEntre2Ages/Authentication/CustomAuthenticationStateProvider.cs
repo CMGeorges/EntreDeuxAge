@@ -72,9 +72,9 @@ namespace BlazorEntre2Ages.Authentication
             if (user.Email != null)
             { 
                 claimsIdentity = new ClaimsIdentity(new[]
-                                {
-                                    new Claim(ClaimTypes.Name, user.Email),                                   
-                                }, "apiauth_type");
+                {
+                    new Claim(ClaimTypes.Name, user.Email),                                   
+                }, "apiauth_type");
             }
             return claimsIdentity;
         }

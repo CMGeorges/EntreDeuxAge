@@ -71,8 +71,8 @@ namespace EventMicroservice.API.Controllers
                 return NotFound();
             }
 
-            @event.AuthorId = eventupdate.AuthorId;
-            @event.GuestId = eventupdate.GuestId;
+            @event.Author = eventupdate.Author;
+            @event.Guest = eventupdate.Guest;
             @event.Status = eventupdate.Status;
             @event.Subject = eventupdate.Subject;
             @event.EpochEnd = eventupdate.EpochEnd;
@@ -106,8 +106,8 @@ namespace EventMicroservice.API.Controllers
         {
             var newEvent = new Event()
             {
-                AuthorId = @event.AuthorId,
-                GuestId = @event.GuestId,
+                Author = @event.Author,
+                Guest = @event.Guest,
                 EpochEnd = @event.EpochEnd,
                 EpochStart = @event.EpochStart,
                 Status = @event.Status,

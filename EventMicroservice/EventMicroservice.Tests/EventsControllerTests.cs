@@ -20,8 +20,8 @@ namespace EventMicroservice.Tests
         public EventsControllerTests()
         {
             Faker = new Faker<Event>()
-                .RuleFor(e => e.AuthorId, f => f.Random.Guid())
-                .RuleFor(e => e.GuestId, f => f.Random.Guid())
+                .RuleFor(e => e.Author, f => f.Internet.Email())
+                .RuleFor(e => e.Guest, f => f.Internet.Email())
                 .RuleFor(e => e.Status, f => f.Random.Bool())
                 .RuleFor(e => e.Subject, f => f.Lorem.Sentence(6))
                 .RuleFor(e => e.EpochStart, f => f.Date.Recent().ToFileTime())

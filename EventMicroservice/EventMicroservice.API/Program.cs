@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EventMicroservice.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EventMicroservice.API
 {
@@ -13,7 +10,17 @@ namespace EventMicroservice.API
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            IHost host = CreateHostBuilder(args).Build();
+
+            using (IServiceScope scope = host.Services.CreateScope())
+            {
+                using (EventDbContext context = scope.ServiceProvider.GetRequiredService<EventDbContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

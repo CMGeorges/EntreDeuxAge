@@ -4,11 +4,11 @@
 <RadzenTemplateForm TItem="Appointment" Data="@model" Submit=@OnSubmit>
 <div class="row" style="margin-bottom: 16px">
     <div class="col-md-3">
-        <RadzenLabel Text="Text" />
+        <RadzenLabel Text="Subject" />
     </div>
     <div class="col">
-        <RadzenTextBox @bind-Value="@model.Text" Name="Text" />
-        <RadzenRequiredValidator Text="Title is required" Component="Text" />
+        <RadzenTextBox @bind-Value="@model.Subject" Name="Subject" />
+        <RadzenRequiredValidator Text="Title is required" Component="Subject" />
     </div>
 </div>
 <div class="row" style="margin-bottom: 16px">

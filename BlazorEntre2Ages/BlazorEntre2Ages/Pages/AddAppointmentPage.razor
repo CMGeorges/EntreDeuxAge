@@ -1,14 +1,16 @@
 ﻿@using BlazorEntre2Ages.Models
+@using BlazorEntre2Ages.Services
 @inject DialogService DialogService
+@inject IUserService UserService
 
 <RadzenTemplateForm TItem="Appointment" Data="@model" Submit=@OnSubmit>
 <div class="row" style="margin-bottom: 16px">
     <div class="col-md-3">
-        <RadzenLabel Text="Text" />
+        <RadzenLabel Text="Subject" />
     </div>
     <div class="col">
-        <RadzenTextBox @bind-Value="@model.Text" Name="Text" />
-        <RadzenRequiredValidator Text="Title is required" Component="Text" />
+        <RadzenTextBox @bind-Value="@model.Subject" Name="Subject" />
+        <RadzenRequiredValidator Text="Title is required" Component="Subject" />
     </div>
 </div>
 <div class="row" style="margin-bottom: 16px">
@@ -29,6 +31,17 @@
         <RadzenRequiredValidator Component="End" Text="End is required" />
     </div>
 </div>
+<div class="row" style="margin-bottom: 16px">
+    <div class="col-md-3">
+        <RadzenLabel Text="Guest" />
+    </div>
+    <div class="col">
+        <RadzenDropDown AllowClear="true" TValue="string" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        AllowFiltering="true" 
+                        Placeholder="Select..." Data=@Users TextProperty="GuestEmail"
+                        ValueProperty="Email" Change=@(args => OnChange(args, "DropDown with placeholder")) />
+    </div>
+</div>    
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col">
@@ -37,22 +50,40 @@
 </div>
 </RadzenTemplateForm>
 @code {
+    public List<User> Users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Users = await UserService.GetAll();
+    }
+    
     [Parameter]
     public DateTime Start { get; set; }
-
     [Parameter]
     public DateTime End { get; set; }
-
+    [Parameter]
+    public string Subject { get; set; }
+    [Parameter]
+    public string GuestEmail { get; set; }
+    
     Appointment model = new Appointment();
 
     protected override void OnParametersSet()
     {
         model.Start = Start;
         model.End = End;
+        model.Subject = Subject;
+        model.GuestEmail = GuestEmail;
     }
 
+    void OnChange(object value, string name)
+    {
+        var str = value is IEnumerable<object>objects ? string.Join(", ", objects) : value;
+    }
+    
     void OnSubmit(Appointment model)
     {
         DialogService.Close(model);
     }
+    
 }
