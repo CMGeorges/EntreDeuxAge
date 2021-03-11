@@ -14,9 +14,17 @@ namespace BlazorEntre2Ages.Services
 {
     public class UserService : IUserService
     {
+
+        #region Champs
         private readonly HttpClient _httpClient;
         private readonly AppSettings _settings;
+        #endregion
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name="optionsMonitor"></param>
         public UserService(HttpClient httpClient, IOptionsMonitor<AppSettings> optionsMonitor)
         {
             _settings = optionsMonitor.CurrentValue;
@@ -26,6 +34,12 @@ namespace BlazorEntre2Ages.Services
             _httpClient = httpClient;
         }
 
+
+        /// <summary>
+        /// Login Method to request a existed User Object
+        /// </summary>
+        /// <param name="user">Async</param>
+        /// <returns>User</returns>
         public async Task<User> LoginAsync(User user)
         {
             user.Password = Encrypt(user.Password);
@@ -45,6 +59,12 @@ namespace BlazorEntre2Ages.Services
             return await Task.FromResult(returnedUser);
         }
 
+
+        /// <summary>
+        /// Register Method: to create a new user, from a confirmation link received as a email.
+        /// </summary>
+        /// <param name="user">Async</param>
+        /// <returns>User</returns>
         public async Task<User> RegisterUserAsync(User user)
         {
             user.Password = Encrypt(user.Password);
@@ -66,6 +86,13 @@ namespace BlazorEntre2Ages.Services
             return await Task.FromResult(returnedUser);
         }
 
+
+
+        /// <summary>
+        /// Refresh method
+        /// </summary>
+        /// <param name="refreshRequest"></param>
+        /// <returns></returns>
         public async Task<User> RefreshTokenAsync(RefreshRequest refreshRequest)
         {
             var serializedUser = JsonConvert.SerializeObject(refreshRequest);
@@ -86,6 +113,12 @@ namespace BlazorEntre2Ages.Services
             return await Task.FromResult(returnedUser);
         }
 
+
+        /// <summary>
+        /// Call the User services to collect the token access of the user. Which is already connected.
+        /// </summary>
+        /// <param name="accessToken">Async</param>
+        /// <returns>User</returns>
         public async Task<User> GetUserByAccessTokenAsync(string accessToken)
         {
             var serializedRefreshRequest = JsonConvert.SerializeObject(accessToken);
@@ -104,6 +137,12 @@ namespace BlazorEntre2Ages.Services
             return await Task.FromResult(returnedUser);
         }
         
+
+        /// <summary>
+        /// Method to encrypte the password 
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static string Encrypt(string password)
         {
             var provider = MD5.Create();
@@ -112,6 +151,11 @@ namespace BlazorEntre2Ages.Services
             return BitConverter.ToString(bytes).Replace("-","").ToLower();
         }
 
+
+        /// <summary>
+        /// Request from the UserService to return all the User. 
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<User>> GetAll()
         {
             var requestMessage = new HttpRequestMessage
