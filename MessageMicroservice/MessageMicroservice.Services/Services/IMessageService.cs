@@ -9,7 +9,7 @@ namespace MessageMicroservice.Services.Services
     {
         Task<List<Message>> GetAllAsync();
         Task<Message> GetByIdAsync(string id);
-        Task<List<Message>> GetByGuidAsync(Guid guid);
+        Task<List<Message>> GetByAuthorAsync(string author);
         Task Insert(Message message);
         Task<bool> DeleteAll();
         Task<bool> DeleteById(string id);

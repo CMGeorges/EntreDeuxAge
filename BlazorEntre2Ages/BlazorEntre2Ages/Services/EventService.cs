@@ -27,7 +27,7 @@ namespace BlazorEntre2Ages.Services
             var requestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(_settings.Url +"api/Events/"),
+                RequestUri = new Uri(_settings.EventUrl +"api/Events/"),
             };
 
             var response = await _httpClient.SendAsync(requestMessage);

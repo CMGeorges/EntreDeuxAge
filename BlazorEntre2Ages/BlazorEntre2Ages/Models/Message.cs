@@ -8,7 +8,7 @@ namespace BlazorEntre2Ages.Models
     public class Message
     {
         public long TimeStamp { get; set; }
-        public Guid Author { get; set; }
+        public string Author { get; set; }
         public string Body { get; set; }
         public bool Mine { get; set; }
 

@@ -28,9 +28,9 @@ namespace MessageMicroservice.Services.Services
             return await _messages.Find(m => m.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Message>> GetByGuidAsync(Guid guid)
+        public async Task<List<Message>> GetByAuthorAsync(string author)
         {
-            return await _messages.Find(m => m.Author == guid).ToListAsync();
+            return await _messages.Find(m => m.Author == author).ToListAsync();
         }
 
         public Task Insert(Message message)

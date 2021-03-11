@@ -48,7 +48,7 @@ else
     private Task<AuthenticationState> AuthenticationStateTask { get; set; }
     ClaimsPrincipal _user;
     public RadzenScheduler<Appointment> Scheduler;
-    //EventConsole console;
+    
     Dictionary<DateTime, string> _events = new Dictionary<DateTime, string>();
 
     public IList<Appointment> Appointments;
@@ -77,18 +77,15 @@ else
 
     async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Appointment> args)
     {
-        await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment", new Dictionary<string, object> { { "Appointment", args.Data } });
+        await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment", 
+            new Dictionary<string, object> { { "Appointment", args.Data } });
 
         await Scheduler.Reload();
     }
 
     void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Appointment> args)
     {
-        // Never call StateHasChanged in AppointmentRender - would lead to infinite loop
-        if (args.Data.Subject == "Birthday")
-        {
-            args.Attributes["style"] = "background: red";
-        }
+        args.Attributes["style"] = "background: #a58bbb";
     }
 
     public async Task<List<Appointment>> GetHolidays()

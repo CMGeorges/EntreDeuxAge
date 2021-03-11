@@ -1,34 +1,34 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Users/",
+      "DownstreamPathTemplate": "/api/Users/{everything}",
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
       "ServiceName": "users-service",
-      "UpstreamPathTemplate": "/api/Users/",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamPathTemplate": "/api/Users/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "PATCH" ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Messages/",
+      "DownstreamPathTemplate": "/api/Messages/{everything}",
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
       "ServiceName": "messages-service",
-      "UpstreamPathTemplate": "/api/Messages/",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamPathTemplate": "/api/Messages/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "PATCH" ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/Events/",
+      "DownstreamPathTemplate": "/api/Events/{everything}",
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
       "ServiceName": "events-service",
-      "UpstreamPathTemplate": "/api/Events/",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamPathTemplate": "/api/Events/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "PATCH" ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       }

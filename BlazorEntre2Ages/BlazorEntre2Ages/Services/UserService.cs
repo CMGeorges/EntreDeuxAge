@@ -48,7 +48,7 @@ namespace BlazorEntre2Ages.Services
             var requestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(_settings.Url+"api/Users/Login"),
+                RequestUri = new Uri(_settings.UserUrl+"api/Users/Login"),
                 Content = new StringContent(serializedUser, Encoding.UTF8, "application/json")
             };
 
@@ -73,7 +73,7 @@ namespace BlazorEntre2Ages.Services
             var requestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(_settings.Url +"api/Users/Register"),
+                RequestUri = new Uri(_settings.UserUrl +"api/Users/Register"),
                 Content = new StringContent(serializedUser, Encoding.UTF8, "application/json")
             };
 
@@ -100,7 +100,7 @@ namespace BlazorEntre2Ages.Services
             var requestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(_settings.Url+"api/Users/RefreshToken"),
+                RequestUri = new Uri(_settings.UserUrl+"api/Users/RefreshToken"),
                 Content = new StringContent(serializedUser, Encoding.UTF8, "application/json")
             };
 
@@ -126,7 +126,7 @@ namespace BlazorEntre2Ages.Services
             var requestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(_settings.Url+"api/Users/GetUserByAccessToken"),
+                RequestUri = new Uri(_settings.UserUrl+"api/Users/GetUserByAccessToken"),
                 Content = new StringContent(serializedRefreshRequest, Encoding.UTF8, "application/json")
             };
             var response = await _httpClient.SendAsync(requestMessage);
@@ -161,7 +161,7 @@ namespace BlazorEntre2Ages.Services
             var requestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(_settings.Url +"api/Users/"),
+                RequestUri = new Uri(_settings.UserUrl +"api/Users/"),
             };
 
             var response = await _httpClient.SendAsync(requestMessage);

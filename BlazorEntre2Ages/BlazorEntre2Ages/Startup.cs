@@ -27,13 +27,15 @@ namespace BlazorEntre2Ages
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.Configure<AppSettings>(Configuration.GetSection("UserService"));
-
-            services.AddSingleton<IMessageService, MessageService>();
+            services.Configure<AppSettings>(Configuration.GetSection("Services"));
+            services.Configure<RabbitSettings>(Configuration.GetSection("RabbitSettings"));
+            
+            services.AddSingleton<HttpClient>();
+            services.AddSingleton<IChatService, ChatService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IEventService, EventService>();
+            services.AddSingleton<IMessageService, MessageService>();
             services.AddSingleton<Rabbit>();
-            services.AddSingleton<HttpClient>();
             
             services.AddBlazoredLocalStorage();
             
@@ -45,6 +47,7 @@ namespace BlazorEntre2Ages
 
             services.AddHttpClient<IUserService, UserService>();
             services.AddHttpClient<IEventService, EventService>();
+            services.AddHttpClient<IMessageService, MessageService>();
             
             services.AddHostedService<Rabbit>();
             

@@ -2,7 +2,9 @@
 @using BlazorEntre2Ages.Services
 @using BlazorEntre2Ages.Models
 @using System.Globalization
-@inject IMessageService MessageService
+@using System.Security.Claims
+@inject IChatService ChatService
+@inject IAuthorizationService AuthorizationService
 @inject Rabbit Rabbit
 
 <h3>ChatRoom</h3>
@@ -30,7 +32,7 @@
 
         <div>
             <textarea class="input-lg" placeholder="Entrez votre message..." @bind="Description" @bind:event="oninput"></textarea>
-            <button @onclick="SendMessage" class="btn btn-primary" aria-disabled="@DisabledState">Envoyer</button>
+            <RadzenButton Click=@OnClick Text="Envoyer" Style="margin-bottom: 20px; width: 120px" />
         </div>
     </Authorized>
     <NotAuthorized>
@@ -45,12 +47,15 @@
 
     IEnumerable<Message> _messages;
     public string Description { get; set; } = string.Empty;
-
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    ClaimsPrincipal _user;
     public bool DisabledState => Description.Length == 0 ? true : false;
     
     protected override async Task OnInitializedAsync()
     {
-        MessageService.OnChangeAsync += async mess =>
+        _user = (await AuthenticationStateTask).User;
+        ChatService.OnChangeAsync += async mess =>
         {
             await InvokeAsync(() =>
             {
@@ -67,6 +72,7 @@
         return DateTimeOffset.FromUnixTimeSeconds(epoch).LocalDateTime.ToString(CultureInfo.CurrentCulture);
     }
 
+    /*
     private void SendMessage(MouseEventArgs arg)
     {
         var message = new Message
@@ -77,5 +83,18 @@
         };
     
         Rabbit.SendMessage(message);
+    }*/
+
+    async Task OnClick()
+    {
+        
+        var message = new Message
+        {
+            Author = _user.Identity.Name,
+            TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            Body = Description
+        };
+    
+        await Rabbit.SendMessage(message);
     }
 }

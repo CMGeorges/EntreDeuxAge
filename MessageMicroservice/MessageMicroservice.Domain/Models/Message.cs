@@ -13,7 +13,7 @@ namespace MessageMicroservice.Domain.Models
         [BsonRepresentation(BsonType.ObjectId)]  
         public string Id { get; set; }
         [BsonElement("author")]
-        public Guid Author { get; set; }
+        public string Author { get; set; }
         [BsonElement("body")]
         public string Body { get; set; }
         [BsonElement("timeStamp")]
