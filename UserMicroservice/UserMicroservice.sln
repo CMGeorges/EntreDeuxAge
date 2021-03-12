@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice.Domain", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice.EntityFramework", "UserMicroservice.EntityFramework\UserMicroservice.EntityFramework.csproj", "{034B2645-B0DD-4DD8-B70D-FC482DD3EDDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserMicroservice.Tests", "UserMicroservice.Tests\UserMicroservice.Tests.csproj", "{A7F3205A-6714-48A5-8325-6A539F417843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice.Tests", "UserMicroservice.Tests\UserMicroservice.Tests.csproj", "{A7F3205A-6714-48A5-8325-6A539F417843}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4160B43-177C-4A44-AE72-FD9CE48E3742}"
+	ProjectSection(SolutionItems) = preProject
+		Graph1.dgml = Graph1.dgml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
