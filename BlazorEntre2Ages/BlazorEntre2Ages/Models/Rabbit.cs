@@ -32,34 +32,11 @@ namespace BlazorEntre2Ages.Models
             
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            /*_channel.QueueDeclare(queue: "entre2ages",
-                     durable: false,
-                     exclusive: false,
-                     autoDelete: false,
-                     arguments: null);*/
             _channel.ExchangeDeclare(exchange:"entre2ages", type:ExchangeType.Fanout);
             _queueName = _channel.QueueDeclare().QueueName;
             _channel.QueueBind(_queueName, exchange:"entre2ages", routingKey:"");
         }
-
-        public void SendMessage(string message)
-        {
-            var messageObject = new Message
-            {
-                Author = Guid.NewGuid(),
-                TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                Body = message
-            };
-            var json = JsonConvert.SerializeObject(messageObject);
-
-            var body = Encoding.UTF8.GetBytes(json);
-
-            _channel.BasicPublish(exchange: "entre2ages",
-                                 routingKey: "",
-                                 basicProperties: null,
-                                 body: body);
-        }
-
+        
         public async Task SendMessage(Message message)
         {
             var json = JsonConvert.SerializeObject(message);

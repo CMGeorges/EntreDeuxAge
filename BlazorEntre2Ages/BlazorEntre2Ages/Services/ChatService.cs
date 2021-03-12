@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using BlazorEntre2Ages.Models;
-using Microsoft.Extensions.Options;
 
 namespace BlazorEntre2Ages.Services
 {
@@ -21,7 +19,6 @@ namespace BlazorEntre2Ages.Services
 
         public void HandleMessage(Message message)
         {
-            message.Mine = true;
             Messages.Add(message);
             this.OnChangeAsync?.Invoke(Messages.TakeLast(10).ToList());
         }

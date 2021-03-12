@@ -33,7 +33,7 @@ namespace MessageMicroservice.API.Controllers
         }
 
         // GET api/<MessagesController>/5
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Message>> GetById(string id)
@@ -47,11 +47,11 @@ namespace MessageMicroservice.API.Controllers
             return Ok(message);
         }
 
-        // GET api/<MessagesController>/5
-        [HttpGet("{guid:Guid}")]
+        // GET api/<MessagesController>/author/{author}
+        [HttpGet("author/{author}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<List<Message>> GetByGuidAsync(string author)
+        public async Task<List<Message>> GetByAuthorAsync(string author)
         {
             return await _service.GetByAuthorAsync(author);
         }
@@ -60,7 +60,7 @@ namespace MessageMicroservice.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Message))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Message>> Post(Message postMessage)
+        public async Task<ActionResult<Message>> Post([FromBody] Message postMessage)
         {
             if (!ModelState.IsValid)
             {
@@ -79,8 +79,8 @@ namespace MessageMicroservice.API.Controllers
         }
 
         // PUT/PATCH api/<MessagesController>/5
-        [HttpPut("{id:Guid}")]
-        [HttpPatch("{id:Guid}")]
+        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

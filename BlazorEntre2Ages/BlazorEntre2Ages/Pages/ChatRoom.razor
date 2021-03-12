@@ -10,29 +10,33 @@
 <h3>ChatRoom</h3>
 <AuthorizeView>
     <Authorized>
-        @if (_messages == null)
-        {
-            <h4>Loading...</h4>
-        }
-        else
-        {
-            <div id="scrollbox" class="h-100">
-                @foreach (var item in _messages)
-                {
-                    <div class="@item.Css">
-                        <div class="user">@item.Author</div>
-                        <div class="msg">@item.Body</div>
-                        <div class="timestamp">@Epoch2String(item.TimeStamp)</div>
-                    </div>
-                }
-                <hr />
-
+        <div style="display: inline-block; width: 100%">
+            @if (_messages == null)
+            {
+                <div>
+                    <h4>Loading...</h4>
+                </div>
+            }
+            else
+            {
+                <div style="clear: both">
+                    <ul>
+                        @foreach (var item in _messages)
+                        {
+                            <li class="@item.Css">
+                                <div class="user">@item.Author</div>
+                                <div class="msg">@item.Body</div>
+                                <div class="timestamp">@Epoch2String(item.TimeStamp)</div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+            <hr style="clear: both"/>
+            <div style="position: relative; clear: both">
+                <textarea class="input-lg" placeholder="Entrez votre message..." @bind="Description" @bind:event="oninput"></textarea>
+                <RadzenButton Click=@OnClick Text="Envoyer" Icon="chat" Style="margin-bottom: 20px; width: 150px; background-color: #78849e"/>
             </div>
-        }
-
-        <div>
-            <textarea class="input-lg" placeholder="Entrez votre message..." @bind="Description" @bind:event="oninput"></textarea>
-            <RadzenButton Click=@OnClick Text="Envoyer" Style="margin-bottom: 20px; width: 120px" />
         </div>
     </Authorized>
     <NotAuthorized>
@@ -60,6 +64,10 @@
             await InvokeAsync(() =>
             {
                 _messages = mess;
+                foreach (var message in _messages)
+                {
+                    message.Mine = message.Author == _user.Identity.Name;
+                }
                 StateHasChanged();
             }
             );
@@ -71,19 +79,6 @@
         //return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(epoch).ToString();
         return DateTimeOffset.FromUnixTimeSeconds(epoch).LocalDateTime.ToString(CultureInfo.CurrentCulture);
     }
-
-    /*
-    private void SendMessage(MouseEventArgs arg)
-    {
-        var message = new Message
-        {
-            Author = Guid.NewGuid(),
-            TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-            Body = Description
-        };
-    
-        Rabbit.SendMessage(message);
-    }*/
 
     async Task OnClick()
     {
