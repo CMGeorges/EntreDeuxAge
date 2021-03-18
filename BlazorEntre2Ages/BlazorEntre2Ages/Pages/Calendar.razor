@@ -1,21 +1,24 @@
 ﻿@using BlazorEntre2Ages.Models
 @using BlazorEntre2Ages.Services
+@using System.Security.Claims
 @inject DialogService DialogService
 @inject IEventService EventService
+@inject IAuthorizationService AuthorizationService
 @page "/calendar"
 
 <div class="row">
     <div class="col-xl-6">
         <RadzenScheduler @ref=@Scheduler style="height: 768px;" TItem="Appointment" Data="@Appointments" StartProperty="Start" EndProperty="End"
-                          TextProperty="Subject" SelectedIndex="2"
-                          SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender>
+                         TextProperty="Subject" SelectedIndex="2"
+                         SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender
+                         >
             <RadzenDayView />
             <RadzenWeekView />
             <RadzenMonthView />
         </RadzenScheduler>
     </div>
     <div class="col-xl-6">
-        
+
     </div>
 </div>
 
@@ -23,14 +26,15 @@
     public RadzenScheduler<Appointment> Scheduler;
 
     public List<Appointment> Appointments;
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    ClaimsPrincipal _user;
 
     protected override async Task OnInitializedAsync()
     {
+        _user = (await AuthenticationStateTask).User;
         var events = await EventService.GetAll();
-        foreach (var e in events)
-        {
-            Appointments.Add(e.ToAppointment());
-        }
+        Appointments = events.Select(e => e.ToAppointment()).ToList();
     }
 
     async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
@@ -40,15 +44,16 @@
             {
                 { "Start", args.Start },
                 { "End", args.End },
-                /*{ "Subject", args.Subject },
-                {"Guest", args.Guest },
-                { "Status", args.Status}*/
-            });
-
+                });
+        
         if (data != null)
         {
             Appointments.Add(data);
+            var eventObject = data.ToEvent();
+            eventObject.Author = _user.Identity.Name;
+            await EventService.Create(eventObject);
             // Either call the Reload method or reassign the Data property of the Scheduler
+            
             await Scheduler.Reload();
         }
     }
@@ -58,14 +63,17 @@
         await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment",
             new Dictionary<string, object> { { "Appointment", args.Data } });
 
+        await EventService.Update(args.Data.ToEvent());
+
         await Scheduler.Reload();
     }
 
     void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Appointment> args)
     {
-        if (args.Data.Subject == "Birthday")
-        {
-            args.Attributes["style"] = "background: red";
-        }
+
+        args.Attributes["style"] = "background: #a58bbb";
+
     }
+    
+
 }

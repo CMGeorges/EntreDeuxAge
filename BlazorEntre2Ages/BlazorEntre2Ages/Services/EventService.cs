@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using BlazorEntre2Ages.Models;
 using Microsoft.Extensions.Options;
@@ -37,19 +39,51 @@ namespace BlazorEntre2Ages.Services
             return events;
         }
 
-        public Task<Event> Create(Event @event)
+        public async Task<bool> Create(Event @event)
         {
-            throw new System.NotImplementedException();
+            var json = JsonConvert.SerializeObject(@event);
+
+            var requestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(_settings.EventUrl +"api/Events"),
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+
+            var response = await _httpClient.SendAsync(requestMessage);
+            var status = response.StatusCode == HttpStatusCode.Created;
+            return status;
         }
 
-        public Task<Event> Update(Event @event)
+        public async Task<bool> Update(Event @event)
         {
-            throw new System.NotImplementedException();
+            var json = JsonConvert.SerializeObject(@event);
+
+            var requestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri(_settings.EventUrl +"api/Events/"+@event.Id),
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+
+            var response = await _httpClient.SendAsync(requestMessage);
+            var status = response.StatusCode == HttpStatusCode.NoContent;
+            return status;
         }
 
-        public Task<bool> Delete(Event @event)
+        public async Task<bool> Delete(Event @event)
         {
-            throw new System.NotImplementedException();
+            var json = JsonConvert.SerializeObject(@event);
+
+            var requestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri(_settings.EventUrl +"api/Events/"+@event.Id),
+            };
+
+            var response = await _httpClient.SendAsync(requestMessage);
+            var status = response.StatusCode == HttpStatusCode.NoContent;
+            return status;
         }
     }
 }

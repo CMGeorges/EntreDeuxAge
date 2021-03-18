@@ -38,10 +38,11 @@
     <div class="col">
         <RadzenDropDown AllowClear="true" TValue="string" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                         AllowFiltering="true" 
-                        Placeholder="Select..." Data=@Users TextProperty="GuestEmail"
-                        ValueProperty="Email" Change=@(args => OnChange(args, "DropDown with placeholder")) />
+                        Placeholder="Select..." Data=@Emails TextProperty="GuestEmail"
+                        ValueProperty="GuestEmail" Change=@(args => OnChange(args)) 
+                        @bind-value="@model.GuestEmail"/>
     </div>
-</div>    
+</div>
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col">
@@ -49,12 +50,14 @@
     </div>
 </div>
 </RadzenTemplateForm>
+
 @code {
-    public List<User> Users;
+    public IEnumerable<string> Emails;
 
     protected override async Task OnInitializedAsync()
     {
-        Users = await UserService.GetAll();
+        var users = await UserService.GetAll();
+        Emails = users.Select((user => user.Email));
     }
     
     [Parameter]
@@ -76,7 +79,7 @@
         model.GuestEmail = GuestEmail;
     }
 
-    void OnChange(object value, string name)
+    void OnChange(object value)
     {
         var str = value is IEnumerable<object>objects ? string.Join(", ", objects) : value;
     }

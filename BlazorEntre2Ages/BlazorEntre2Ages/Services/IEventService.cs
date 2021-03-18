@@ -7,8 +7,8 @@ namespace BlazorEntre2Ages.Services
     public interface IEventService
     {
         public Task<List<Event>> GetAll();
-        public Task<Event> Create(Event @event);
-        public Task<Event> Update(Event @event);
+        public Task<bool> Create(Event @event);
+        public Task<bool> Update(Event @event);
         public Task<bool> Delete(Event @event);
     }
 }

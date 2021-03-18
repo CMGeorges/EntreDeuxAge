@@ -34,18 +34,18 @@ services:
     networks:
       - entre2ages
     container_name: events
-  images:
+  medias:
     image: postgres:alpine
     restart: always
     env_file:
-      - images.env
+      - medias.env
     ports:
       - 5433:5432
     volumes:
-      - ./images:/var/lib/postgresql/data
+      - ./medias:/var/lib/postgresql/data
     networks:
       - entre2ages
-    container_name: users
+    container_name: medias
   rabbitmq:
     image: rabbitmq:3-management
     restart: always
@@ -104,6 +104,25 @@ services:
       - entre2ages
     links:
       - messages
+    environment:
+      - Kestrel__Certificates__Default__Password=xsdRyXGjjhEEUKQYNQQQ
+      - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/microservices.pfx
+    volumes:
+      - ./Certificates:/app/Infrastructure/Certificate/
+
+  medias-service:
+    build:
+      dockerfile: MediaMicroservice.API/Dockerfile
+      context: ./MediaMicroservice
+    depends_on:
+      - users
+      - consul
+    restart: always
+    container_name: medias-service
+    networks:
+      - entre2ages
+    links:
+      - users
     environment:
       - Kestrel__Certificates__Default__Password=xsdRyXGjjhEEUKQYNQQQ
       - Kestrel__Certificates__Default__Path=/app/Infrastructure/Certificate/microservices.pfx

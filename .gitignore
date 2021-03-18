@@ -2,9 +2,11 @@
 /users
 /events
 /images
+/medias
 events.env
 users.env
 images.env
+medias.env
 Entre2Ages.zip
 /Certificates
 /ignore

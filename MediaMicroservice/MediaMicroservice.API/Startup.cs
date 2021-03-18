@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MediaMicroservice.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Steeltoe.Discovery.Client;
+using Steeltoe.Discovery.Consul;
 
-namespace ImageService.API
+namespace MediaMicroservice.API
 {
     public class Startup
     {
@@ -27,10 +25,20 @@ namespace ImageService.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            var connectionString = Configuration.GetConnectionString("ConnectionString");
+            Action<DbContextOptionsBuilder> configureDbContext = 
+                o => o.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
+
+            services.AddDbContext<MediaDbContext>(configureDbContext);
+            services.AddSingleton(new MediaDbContextFactory(configureDbContext));
+            services.AddControllers();
+            services.AddDiscoveryClient(Configuration);
+            services.AddServiceDiscovery(o => o.UseConsul());
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImageService.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MediaService.API", Version = "v1" });
             });
         }
 
@@ -41,13 +49,13 @@ namespace ImageService.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageService.API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MediaService.API v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseDiscoveryClient();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

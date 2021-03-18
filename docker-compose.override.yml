@@ -36,6 +36,17 @@ services:
       - Consul__Discovery__IpAddress=messages-service
       - MongoDatabaseSettings__ConnectionString=mongodb://messages
 
+  medias-service:
+    ports:
+      - "7001:443"
+      - "7000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ASPNETCORE_URLS=https://+;http://+"
+      - ASPNETCORE_HTTPS_PORT=7001
+      - Consul__Host=consul
+      - Consul__Discovery__IpAddress=users-service
+      - ConnectionStrings__ConnectionString=Server=medias;Username=postgres;Password=pass;Database=entre2ages;Port=5433 
   gateway:
     ports:
       - "9001:443"
@@ -61,7 +72,7 @@ services:
     ports:
       - 5432:5432
 
-  images:
+  medias:
     ports:
       - 5433:5432
 

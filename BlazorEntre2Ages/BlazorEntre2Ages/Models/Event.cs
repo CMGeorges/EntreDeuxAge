@@ -13,15 +13,21 @@ namespace BlazorEntre2Ages.Models
         public string Subject { get; set; }
         public bool Status { get;set;}
 
+        public Event()
+        {
+            
+        }
+
         public Appointment ToAppointment()
         {
             return new Appointment()
             {
-                End = new DateTime(EpochEnd),
-                Start = new DateTime(EpochStart),
+                Id = Id,
+                End = DateTime.FromFileTimeUtc(EpochEnd),
+                Start = DateTime.FromFileTimeUtc(EpochStart),
                 Subject = Subject,
                 Status = Status,
-                GuestEmail = Guest
+                GuestEmail = Guest,
             };
         }
     }

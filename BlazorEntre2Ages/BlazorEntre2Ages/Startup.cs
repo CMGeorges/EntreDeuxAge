@@ -35,6 +35,7 @@ namespace BlazorEntre2Ages
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IEventService, EventService>();
             services.AddSingleton<IMessageService, MessageService>();
+            services.AddSingleton<IMediaService, MediaService>();
             services.AddSingleton<Rabbit>();
             
             services.AddBlazoredLocalStorage();
@@ -48,6 +49,7 @@ namespace BlazorEntre2Ages
             services.AddHttpClient<IUserService, UserService>();
             services.AddHttpClient<IEventService, EventService>();
             services.AddHttpClient<IMessageService, MessageService>();
+            services.AddHttpClient<IMediaService, MediaService>();
             
             services.AddHostedService<Rabbit>();
             
