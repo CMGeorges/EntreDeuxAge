@@ -14,10 +14,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.0.x'
-    - name: Restore
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+        dotnet-version: '8.0.x'
+    - name: Restore, Build and Test
+      shell: bash
+      run: |
+        for sln in $(find . -name '*.sln'); do
+          echo "Processing $sln"
+          dotnet restore "$sln"
+          dotnet build "$sln" --no-restore
+          dotnet test "$sln" --no-build --verbosity normal
+        done
