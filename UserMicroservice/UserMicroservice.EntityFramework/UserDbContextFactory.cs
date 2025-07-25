@@ -10,7 +10,8 @@ namespace UserMicroservice.EntityFramework
 
         public UserDbContextFactory()
         {
-            var connexionString = "Server=localhost;Username=postgres;Password=pass;Database=entre2ages;Port=5432";
+            var connexionString = Environment.GetEnvironmentVariable("USERS_CONNECTION_STRING") ??
+                                   "Server=localhost;Username=postgres;Password=changeme;Database=entre2ages;Port=5432";
             _configureDbContext = o => o.UseNpgsql(connexionString).UseSnakeCaseNamingConvention();
         }
 
