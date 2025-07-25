@@ -14,7 +14,8 @@ namespace MediaMicroservice.EntityFramework
 
         public MediaDbContextFactory()
         {
-            var connexionString = "Server=localhost;Username=postgres;Password=pass;Database=entre2ages;Port=5433";
+            var connexionString = Environment.GetEnvironmentVariable("MEDIAS_CONNECTION_STRING") ??
+                                   "Server=localhost;Username=postgres;Password=changeme;Database=entre2ages;Port=5433";
             _configureDbContext = o => o.UseNpgsql(connexionString).UseSnakeCaseNamingConvention();
         }
         
